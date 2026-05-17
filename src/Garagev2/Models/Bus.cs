@@ -12,7 +12,7 @@ public class Bus : Vehicle
     public Bus(string regNumber, string color, int wheelAmount, int seatAmount)
         : base(regNumber, color, wheelAmount)
     {
-        SeatAmount = ValidatePositiveInt(seatAmount, nameof(seatAmount), min: 1, max: 120);
+        SeatAmount = seatAmount;
     }
 
     public override string GetExtraInfo()

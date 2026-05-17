@@ -11,7 +11,7 @@ public class Airplane : Vehicle
     public Airplane(string regNumber, string color, int wheelAmount, int engineAmount)
         : base(regNumber, color, wheelAmount)
     {
-        EngineAmount = ValidatePositiveInt(engineAmount, nameof(engineAmount), min: 1, max: 12);
+        EngineAmount = engineAmount;
     }
 
     public override string GetExtraInfo()
