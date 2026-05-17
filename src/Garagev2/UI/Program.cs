@@ -118,7 +118,7 @@ class Program
                     */
                     case "99":
                         Console.WriteLine("Exiting the program...");
-                        Thread.Sleep(800);
+                        ConsoleUI.Pause();
                         break;
 
                     default:
@@ -200,117 +200,40 @@ class Program
 
     static void AddVehicle()
     {
-        Console.Clear();
-        Console.WriteLine(" ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
-        Console.WriteLine("|                             |");
-        Console.WriteLine("| ==== ADD A NEW VEHICLE ==== |");
-        Console.WriteLine("|                             |");
-        Console.WriteLine(" ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀");
         
         if (garageHandler!.IsFull())
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("|");
-            Console.WriteLine("|");
-            Console.WriteLine("| Garage is full. Cannot add more vehicles.");
-            Console.WriteLine("|");
-            Console.WriteLine("| Please remove a vehicle before adding a new one.");
-            Console.WriteLine("| Or create a new garage with larger capacity.");
-            Console.ResetColor();
+            ConsoleUI.ShowHeader("| Garage is Full");
+            ConsoleUI.ShowError("| Remove a vehicle or create a larger garage first.");
+            ConsoleUI.Pause();
+            return;
+        }
+    
+        
+        Vehicle? vehicle = VehicleFactory.CreateVehicle(garageHandler);
 
-            Helpers.Pause();
+
+        if (vehicle == null)
+        {
+            Console.WriteLine("| Vehicle creation cancelled. Returning to menu.");
+            Helpers.CountDownToMenu();
             return;
         }
 
-        Console.WriteLine();
-        Console.WriteLine("| Adding a new vehicle to the garage.");
-        Console.WriteLine("|");
-        Console.WriteLine("| [1] Car");
-        Console.WriteLine("| [2] Motorcycle");
-        Console.WriteLine("| [3] Bus");
-        Console.WriteLine("| [4] Boat");
-        Console.WriteLine("| [5] Airplane");
-        Console.WriteLine("|");
-        Console.WriteLine("| [0] Back");
-        Console.WriteLine();
-        Console.Write("Select vehicle type: ");
-
-        string? action = Console.ReadLine();
-
-        if (action == "0")
-        {
-            return;
-        }
-
-        Console.WriteLine();
-
-        string regNumber = Helpers.GetValidText("| Enter registration number: ").Replace(" ", "").Replace("-", "").ToUpper();
-
-        while (garageHandler!.RegNrExists(regNumber)) 
-        {
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"| Registration number {regNumber} is not unique.");
-            Console.Write("| There is already a vehicle registered with that number.");
-            Console.WriteLine();
-            Console.ResetColor();
-
-            Console.WriteLine();
-            regNumber = Helpers.GetValidText("| Please enter a unique registration number: ").Replace(" ", "").Replace("-", "").ToUpper();
-        }
-
-
-        string color = Helpers.GetValidText("| Enter color: ");
-        int wheelAmount = Helpers.GetValidInt("| Enter number of wheels: ");
-        
-        
-        Vehicle? vehicle = null;
-        switch (action)
-        {
-            case "1":
-                string fuelType = Helpers.GetValidText("| Enter fuel type (Gasoline/Diesel): ");
-                vehicle = new Car(regNumber, color, wheelAmount, fuelType);
-                break;
-            case "2":
-                int cylinderVolume = Helpers.GetValidInt("| Enter cylinder volume (cc): ");
-                vehicle = new Motorcycle(regNumber, color, wheelAmount, cylinderVolume);
-                break;
-            case "3":
-                int seatAmount = Helpers.GetValidInt("| Enter number of seats: ");
-                vehicle = new Bus(regNumber, color, wheelAmount, seatAmount);
-                break;
-            case "4":
-                double length = Helpers.GetValidDouble("| Enter length (Meters): ");
-                vehicle = new Boat(regNumber, color, wheelAmount, length);
-                break;
-            case "5":
-                int engineAmount = Helpers.GetValidInt("| Enter number of engines: ");
-                vehicle = new Airplane(regNumber, color, wheelAmount, engineAmount);
-                break;
-            default:
-                Console.WriteLine();
-                Console.WriteLine("Invalid selection.");
-                Helpers.CountDownToMenu();
-                return;
-        }
-
-        Console.WriteLine();
-        bool added = garageHandler!.AddVehicle(vehicle);
-
-        Console.WriteLine();
+        bool added = garageHandler.AddVehicle(vehicle);
 
         if (added)
         {
-            Console.WriteLine($"| Vehicle {vehicle.RegNumber} added to the garage.");
+            ConsoleUI.ShowSuccess($"| Vehicle {vehicle.RegNumber} added to the garage.");
 
             //FileHandler.SaveToFile(garageHandler!);
         }
         else
         {
-            Console.WriteLine(" Vehicle could not be added.");
+            ConsoleUI.ShowError("| Vehicle could not be added.");
         }
         
-        Helpers.CountDownToMenu();
+        ConsoleUI.Pause();
     } 
 
 
@@ -333,13 +256,13 @@ class Program
 
         if (removed)
         {
-            Console.WriteLine($"Vehicle {regNumber} removed from the garage.");
+            ConsoleUI.ShowSuccess($"| Vehicle {regNumber} removed from the garage.");
 
             //FileHandler.SaveToFile(garageHandler!);
         }
         else
         {
-            Console.WriteLine($"No vehicle with registration number {regNumber} found in the garage.");
+            ConsoleUI.ShowError($"| No vehicle with registration number {regNumber} found in the garage.");
         }
 
         Helpers.CountDownToMenu();
@@ -364,14 +287,13 @@ class Program
 
         if (foundVehicle != null)
         {
-            Console.WriteLine("| Vehicle found:");
+            ConsoleUI.ShowSuccess("| Vehicle found:");
             Console.WriteLine("|");
             Console.WriteLine(foundVehicle.GetInfo());
         }
         else
         {
-            Console.WriteLine();
-            Console.WriteLine($"No vehicle with registration number {regNumber} found in the garage.");
+            ConsoleUI.ShowError($"| No vehicle with registration number {regNumber} found in the garage.");
         }
 
         Helpers.Pause();
