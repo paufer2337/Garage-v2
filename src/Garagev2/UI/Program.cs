@@ -8,7 +8,7 @@ namespace GarageConsoleApp;
 
 class Program
 {
-    private static Garage? garage;
+    private static GarageHandler? garageHandler;
 
     static void Main()
     {
@@ -55,7 +55,7 @@ class Program
 
                 switch (action)
                 {
-                    case "1":
+                    /*case "1":
                         garage!.ParkedVehicles();
                         Helpers.Pause();
                         break;
@@ -63,7 +63,7 @@ class Program
                     case "2":
                         garage!.VehiclesByType();
                         break;
-                    
+                    */
                     case "3":
                         AddVehicle();
                         break;
@@ -76,10 +76,10 @@ class Program
                         SearchByRegNr();
                         break;
 
-                    case "6":
+                   /* case "6":
                         SearchByProperties();
                         break;
-
+                    */
                     case "7":
                         Console.Clear();
 
@@ -111,12 +111,12 @@ class Program
                         CreateGarage(); 
                         PopulateGarage();
                         break;
-
+                    /*
                     case "8":
-                        FileHandler.LoadFromFile(garage!);
+                        FileHandler.LoadFromFile(garageHandler!);
                         Helpers.Pause();
                         break;
-
+                    */
                     case "99":
                         Console.WriteLine("Exiting the program...");
                         Thread.Sleep(800);
@@ -151,7 +151,7 @@ class Program
             Console.WriteLine();
             Console.Write("| Invalid input. Please enter a valid capacity for the garage (minimum 3): ");
         }
-        garage = new Garage(capacity);
+        garageHandler = new GarageHandler(capacity);
 
         Console.WriteLine("|");
         Console.WriteLine($"| ~ Garage created with {capacity} parking slots. ~");
@@ -181,13 +181,13 @@ class Program
         }
         
         Console.WriteLine("|");
-        Console.WriteLine("| How many vehicles do you want to add? (max " + garage!.Capacity + "): ");
+        Console.WriteLine("| How many vehicles do you want to add? (max " + garageHandler!.IsFull() + "): ");
 
         int amount;
-        while (!int.TryParse(Console.ReadLine(), out amount) || amount < 1 || amount > garage!.Capacity)
+        while (!int.TryParse(Console.ReadLine(), out amount) || amount < 1 || amount > garageHandler!.Capacity)
         {
             Console.WriteLine();
-            Console.Write("| Invalid input. Please enter a valid number of vehicles to add (1-" + garage!.Capacity + "): ");
+            Console.Write("| Invalid input. Please enter a valid number of vehicles to add (1-" + garageHandler!.Capacity + "): ");
         }
 
         Console.Clear();
@@ -208,7 +208,7 @@ class Program
         Console.WriteLine("|                             |");
         Console.WriteLine(" ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀");
         
-        if (garage!.IsFull())
+        if (garageHandler!.IsFull())
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("|");
@@ -247,7 +247,7 @@ class Program
 
         string regNumber = Helpers.GetValidText("| Enter registration number: ").Replace(" ", "").Replace("-", "").ToUpper();
 
-        while (garage!.RegNrExists(regNumber)) 
+        while (garageHandler!.RegNrExists(regNumber)) 
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Red;
@@ -296,7 +296,7 @@ class Program
         }
 
         Console.WriteLine();
-        bool added = garage!.AddVehicle(vehicle);
+        bool added = garageHandler!.AddVehicle(vehicle);
 
         Console.WriteLine();
 
@@ -304,7 +304,7 @@ class Program
         {
             Console.WriteLine($"| Vehicle {vehicle.RegNumber} added to the garage.");
 
-            FileHandler.SaveToFile(garage!);
+            //FileHandler.SaveToFile(garageHandler!);
         }
         else
         {
@@ -328,7 +328,7 @@ class Program
         Console.WriteLine("|");
         string regNumber = Helpers.GetValidText("| Enter registration number of the vehicle to remove: ").ToUpper();
 
-        bool removed = garage!.RemoveVehicle(regNumber);
+        bool removed = garageHandler!.RemoveVehicle(regNumber);
 
         Console.WriteLine();
 
@@ -336,7 +336,7 @@ class Program
         {
             Console.WriteLine($"Vehicle {regNumber} removed from the garage.");
 
-            FileHandler.SaveToFile(garage!);
+            //FileHandler.SaveToFile(garageHandler!);
         }
         else
         {
@@ -359,7 +359,7 @@ class Program
         Console.WriteLine("|");
         string regNumber = Helpers.GetValidText("| Enter registration number to search: ").ToUpper();
 
-        Vehicle? foundVehicle = garage!.SearchByRegNr(regNumber);
+        Vehicle? foundVehicle = garageHandler!.FindVehicle(regNumber);
 
         Console.WriteLine("|");
 
@@ -408,7 +408,7 @@ class Program
        
         string searchValue = Helpers.GetValidText("| Search for: ");
 
-        garage!.SearchByProperty(action, searchValue);
+        // garageHandler!.SearchByProperty(action, searchValue);
 
         Helpers.Pause();
     }

@@ -48,9 +48,15 @@ public class GarageHandler
     }
 
 
-    public bool isFull()
+    public int Capacity
+    {
+        get { return garage.Capacity; }
+    }
+
+
+    public bool IsFull()
     {
         return garage.IsFull();
     }
-    
+
 }

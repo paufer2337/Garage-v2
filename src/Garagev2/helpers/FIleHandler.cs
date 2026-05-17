@@ -14,7 +14,7 @@ public static class FileHandler
     private static readonly string filePath = 
     Path.Combine(Directory.GetCurrentDirectory(), "Data", "garage.csv");
 
-    public static void SaveToFile(Garage garage)
+    public static void SaveToFile(Garage<Vehicle> garage)
     {
         
         Directory.CreateDirectory("Data");
@@ -58,7 +58,7 @@ public static class FileHandler
         Console.WriteLine($"| Vehicles saved: {lines.Count - 1}");
     }
 
-    public static void LoadFromFile(Garage garage)
+    public static void LoadFromFile(Garage<Vehicle> garage)
     {
         if (!File.Exists(filePath))
         {

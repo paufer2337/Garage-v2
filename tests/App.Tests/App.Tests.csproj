@@ -14,12 +14,9 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GarageConsoleApp.csproj" />
+    <ProjectReference Include="..\..\GarageConsoleApp.csproj" />
   </ItemGroup>
 
 </Project>
