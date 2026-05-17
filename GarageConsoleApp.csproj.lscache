@@ -76,7 +76,9 @@ src/Garagev2/
   Car.cs
   Motorcycle.cs
   Vehicle.cs
- UI/Program.cs
+ UI/
+  ConsoleUI.cs
+  Program.cs
 tests/App.Tests/
  obj/Debug/net10.0/App.Tests.GlobalUsings.g.cs
  TestGarageHandler.cs

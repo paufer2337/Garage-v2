@@ -55,11 +55,10 @@ class Program
 
                 switch (action)
                 {
-                    /*case "1":
-                        garage!.ParkedVehicles();
-                        Helpers.Pause();
+                    case "1":
+                        ShowParkedVehicles();
                         break;
-                    
+                    /*
                     case "2":
                         garage!.VehiclesByType();
                         break;
@@ -161,11 +160,11 @@ class Program
     static void PopulateGarage()
     {
         Console.Clear();
-        Console.WriteLine("▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▀▄▀▄▀▄▀▄▀▄");
+        Console.WriteLine("▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▀▄▀▄▀▄▀▄▀");
         Console.WriteLine();
-        Console.WriteLine("===== POPULATE GARAGE FROM START =====");
+        Console.WriteLine(" ==== POPULATE GARAGE FROM START ====");
         Console.WriteLine();
-        Console.WriteLine("▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▀▄▀▄▀▄▀▄▀");
+        Console.WriteLine("▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀");
         Console.WriteLine();
         Console.Write("| Do you want to add vehicles from start? (y/n): ");
 
@@ -409,6 +408,49 @@ class Program
         string searchValue = Helpers.GetValidText("| Search for: ");
 
         // garageHandler!.SearchByProperty(action, searchValue);
+
+        Helpers.Pause();
+    }
+
+
+    static void ShowParkedVehicles()
+    {
+        Console.Clear();
+        Console.WriteLine(" ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ ");
+        Console.WriteLine("|                                   |");
+        Console.WriteLine("|   PARKED VEHICLES IN THE GARAGE   |");
+        Console.WriteLine("|                                   |");
+        Console.WriteLine(" ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀ ");
+        Console.WriteLine();
+
+        Vehicle?[] vehicles = garageHandler!.GetVehicles();
+
+        bool foundVehicle = false;
+        int vehicleNr = 1;
+
+        Console.WriteLine("| No.  Type       RegNr       Color        Wheels     Extra              |");
+        Console.WriteLine("| ---------------------------------------------------------------------- |");
+
+        foreach (Vehicle? parkedVehicle in vehicles)
+        {
+            if (parkedVehicle != null)
+            {
+                Console.WriteLine($"| [{vehicleNr}] " +
+                $"{parkedVehicle.GetType().Name,-13}" +
+                $"{parkedVehicle.RegNumber,-12}" +
+                $"{parkedVehicle.Color,-14}" +
+                $"{parkedVehicle.WheelAmount,-8}" +
+                $"{parkedVehicle.GetExtraInfo(),-19} |");
+
+                vehicleNr++;
+                foundVehicle = true;
+            }
+        }
+
+        if (!foundVehicle)
+        {
+            Console.WriteLine("~ No parked vehicles found. ~");
+        }
 
         Helpers.Pause();
     }
