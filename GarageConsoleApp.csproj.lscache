@@ -54,21 +54,30 @@ TemporaryDependencyNodeTargetIdentifier=net10.0
 /warnaserror+:NU1605,SYSLIB0011
 
 [sourceFiles]
-FIleHandler.cs
-Garage.cs
-Helpers.cs
-Models/
- Airplane.cs
- Boat.cs
- Bus.cs
- Car.cs
- Motorcycle.cs
- Vehicle.cs
 obj/Debug/net10.0/
  .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
  GarageConsoleApp.AssemblyInfo.cs
  GarageConsoleApp.GlobalUsings.g.cs
-Program.cs
+src/Garagev2/core/
+ Garage.cs
+ GarageHandler.cs
+src/Garagev2/
+ factories/VehicleFactory.cs
+ helpers/
+  FIleHandler.cs
+  Helpers.cs
+ interfaces/
+  IHandler.cs
+  IVehicle.cs
+ Models/
+  Airplane.cs
+  Boat.cs
+  Bus.cs
+  Car.cs
+  Motorcycle.cs
+  Vehicle.cs
+ UI/Program.cs
+tests/App.Tests/UnitTest1.cs
 
 [metadataReferences]
 <DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.7/ref/net10.0/

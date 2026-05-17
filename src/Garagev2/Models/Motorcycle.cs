@@ -12,7 +12,7 @@ public class Motorcycle : Vehicle
     public Motorcycle(string regNumber, string color, int wheelAmount, int cylinderVolume)
         : base(regNumber, color, wheelAmount)
     {
-        CylinderVolume = cylinderVolume;
+        CylinderVolume = ValidatePositiveInt(cylinderVolume, nameof(cylinderVolume), min: 50, max: 2500);
     }
 
     public override string GetExtraInfo()

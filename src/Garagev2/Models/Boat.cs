@@ -12,7 +12,7 @@ public class Boat : Vehicle
     public Boat(string regNumber, string color, int wheelAmount, double length)
         : base(regNumber, color, wheelAmount)
     {
-        Length = length;
+        Length = ValidatePositiveDouble(length, nameof(length), min: 0.5, max: 100);
     }
 
     public override string GetExtraInfo()

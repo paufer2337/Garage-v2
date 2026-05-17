@@ -14,7 +14,7 @@ public class Car : Vehicle
     public Car(string regNumber, string color, int wheelAmount, string fuelType)
         : base(regNumber, color, wheelAmount)
     {
-        FuelType = fuelType;
+        FuelType = ValidateText(fuelType, nameof(fuelType));
     }
 
     public override string GetExtraInfo()
