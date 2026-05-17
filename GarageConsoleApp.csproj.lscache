@@ -58,15 +58,15 @@ obj/Debug/net10.0/
  .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
  GarageConsoleApp.AssemblyInfo.cs
  GarageConsoleApp.GlobalUsings.g.cs
-src/Garagev2/core/
+src/Garagev2/Core/
  Garage.cs
  GarageHandler.cs
 src/Garagev2/
- factories/VehicleFactory.cs
- helpers/
+ Factories/VehicleFactory.cs
+ Helpers/
   FIleHandler.cs
   Helpers.cs
- interfaces/
+ Interfaces/
   IHandler.cs
   IVehicle.cs
  Models/
