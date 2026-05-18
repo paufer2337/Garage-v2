@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 
 
+
+
 namespace GarageConsoleApp;
 
 
@@ -91,9 +93,15 @@ public class Garage <T> : IEnumerable<T> where T : Vehicle
     }
 
 
-    public T?[] GetVehicles()
+    public IEnumerable<T> GetVehicles()
     {
-        return vehicles;
+        foreach (T? vehicle in vehicles)
+        {
+            if (vehicle != null)
+            {
+                yield return vehicle;
+            }
+        }
     }
 
     

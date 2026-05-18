@@ -27,16 +27,38 @@ public static class Helpers
 
     public static int GetValidInt(string message)
     {
-        Console.Write(message);
 
         int value;
-        while (!int.TryParse(Console.ReadLine(), out value) || value < 0)
-        {
-            Console.WriteLine("Invalid input. Please enter a valid non-negative integer.");
-            Console.WriteLine();
-        }
 
-        return value;
+        Console.Write(message);
+
+        while (true)
+        {
+            if (int.TryParse(Console.ReadLine(), out value) && value >= 0)
+            {
+                return value;
+            }
+            ConsoleUI.ShowError("Invalid input. Please enter a valid number.");
+            ConsoleUI.ShowMessage("");
+        }
+    }
+
+    public static int GetValidInt(string message, int min, int max)
+    {
+
+        int value;
+        while (true)
+        {
+            Console.Write(message);
+
+            if (int.TryParse(Console.ReadLine(), out value) && value >= min && value <= max)
+            {
+                return value;
+            }
+
+            ConsoleUI.ShowError($"Invalid input. Please enter a number between {min} and {max}.");
+            ConsoleUI.ShowMessage("");
+        }
     }
 
     public static double GetValidDouble(string message)
@@ -51,13 +73,6 @@ public static class Helpers
         }
 
         return value;
-    }
-
-    public static void Pause()
-    {
-    Console.WriteLine();
-    Console.WriteLine("Press any key to return to menu...");
-    Console.ReadKey();
     }
 
 

@@ -54,16 +54,16 @@ public static class FileHandler
         }
 
         File.WriteAllLines(filePath, lines);
-        Console.WriteLine($"| File path: {filePath}");
-        Console.WriteLine($"| Vehicles saved: {lines.Count - 1}");
+        Console.WriteLine($"File path: {filePath}");
+        Console.WriteLine($"Vehicles saved: {lines.Count - 1}");
     }
 
     public static void LoadFromFile(Garage<Vehicle> garage)
     {
         if (!File.Exists(filePath))
         {
-            Console.WriteLine("|");
-            Console.WriteLine($"| No file found at: {filePath}");
+            Console.WriteLine();
+            Console.WriteLine($"No file found at: {filePath}");
             return;
         }
 

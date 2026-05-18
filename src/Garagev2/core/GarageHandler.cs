@@ -1,5 +1,3 @@
-using System;
-using System.Threading;
 using System.Collections;
 
 
@@ -13,6 +11,8 @@ public class GarageHandler
 {
     
     private readonly Garage<Vehicle> garage;
+
+    public int Capacity => garage.Capacity;
 
     public GarageHandler(int capacity)
     {
@@ -42,15 +42,9 @@ public class GarageHandler
     }
 
 
-    public Vehicle?[] GetVehicles()
+    public IEnumerable<Vehicle> GetVehicles()
     {
         return garage.GetVehicles();
-    }
-
-
-    public int Capacity
-    {
-        get { return garage.Capacity; }
     }
 
 

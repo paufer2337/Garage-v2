@@ -130,17 +130,8 @@ class Program
     
     static void CreateGarage()
     {
-        GarageHandler? newGarage = GarageFactory.CreateGarage();
+        garageHandler = GarageFactory.CreateGarage();
 
-        if (newGarage == null)
-        {
-            ConsoleUI.ShowMessage("No garage was created.", ConsoleColor.DarkYellow);
-            ConsoleUI.Pause();
-            return;
-        }
-
-        garageHandler = newGarage;
-        ConsoleUI.ShowSuccess("Garage created successfully.");
         ConsoleUI.Pause();
     }
 
@@ -320,7 +311,7 @@ class Program
     {
         ConsoleUI.ShowHeader("Parked Vehicles");
 
-        Vehicle?[] vehicles = garageHandler!.GetVehicles();
+        IEnumerable<Vehicle> vehicles = garageHandler!.GetVehicles();
 
         bool foundVehicle = false;
         int vehicleNr = 1;
@@ -328,20 +319,18 @@ class Program
         Console.WriteLine("| No.  Type       RegNr       Color        Wheels     Extra              |");
         Console.WriteLine("| ---------------------------------------------------------------------- |");
 
-        foreach (Vehicle? parkedVehicle in vehicles)
+        foreach (Vehicle vehicle in vehicles)
         {
-            if (parkedVehicle != null)
-            {
-                Console.WriteLine($"| [{vehicleNr}] " +
-                $"{parkedVehicle.GetType().Name,-13}" +
-                $"{parkedVehicle.RegNumber,-12}" +
-                $"{parkedVehicle.Color,-14}" +
-                $"{parkedVehicle.WheelAmount,-8}" +
-                $"{parkedVehicle.GetExtraInfo(),-19} |");
+            
+            Console.WriteLine($" [{vehicleNr}] " +
+                $"{vehicle.GetType().Name,-13}" +
+                $"{vehicle.RegNumber,-12}" +
+                $"{vehicle.Color,-14}" +
+                $"{vehicle.WheelAmount,-8}" +
+                $"{vehicle.GetExtraInfo(),-19} ");
 
-                vehicleNr++;
-                foundVehicle = true;
-            }
+            vehicleNr++;
+            foundVehicle = true;
         }
 
         if (!foundVehicle)

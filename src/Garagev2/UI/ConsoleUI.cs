@@ -56,6 +56,7 @@ public static class ConsoleUI
 
         Console.WriteLine("[1] Create new garage");
         Console.WriteLine("[2] Load garage from file");
+        Console.WriteLine();
         Console.WriteLine("[0] Exit");
 
         Console.WriteLine();
