@@ -13,160 +13,140 @@ class Program
     static void Main()
     {
 
-        CreateGarage();
-        PopulateGarage();
+        ShowStartMenu();
 
-        string? action = "";
-        while (action != "99")
-            {
-                Console.Clear();
-                Console.WriteLine(" ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ ");
-                Console.WriteLine("");
-                Console.WriteLine("  Welcome to the famous G A R A G E! ");
-                Console.WriteLine("");
-                Console.WriteLine(" ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀ ");
-                Console.WriteLine();
-                Console.WriteLine("| [1] List all parked vehicles       |");
-                Console.WriteLine("| [2] Sort vehicle by type/quantity  |");
-                Console.WriteLine("|                                    |");
-                Console.WriteLine("| [3] ADD vehicle                    |");
-                Console.WriteLine("| [4] REMOVE vehicle                 |");
-                Console.WriteLine("|                                    |");
-                Console.WriteLine("| [5] Search by registration number  |");
-                Console.WriteLine("| [6] Search by vehicle properties   |");
-                Console.WriteLine("|                                    |");
-                Console.WriteLine("| [7] Create new garage              |");
-                Console.WriteLine("|                                    |");
-                Console.WriteLine("| [8] Load garage from data file     |");
-                Console.WriteLine("|                                    |");
-                Console.WriteLine("| [99] Exit");
-                Console.WriteLine();
-                Console.Write("Select an action: ");
-
-                action = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(action))
-                {
-                    Console.WriteLine("Invalid input. Please enter a number/action from the menu.");
-                    Helpers.CountDownToMenu();
-                    continue;
-                }
-
-                Console.WriteLine();
-
-                switch (action)
-                {
-                    case "1":
-                        ShowParkedVehicles();
-                        break;
-                    /*
-                    case "2":
-                        garage!.VehiclesByType();
-                        break;
-                    */
-                    case "3":
-                        AddVehicle();
-                        break;
-                    
-                    case "4":
-                        RemoveVehicle();
-                        break;
-                    
-                    case "5":
-                        SearchByRegNr();
-                        break;
-
-                   /* case "6":
-                        SearchByProperties();
-                        break;
-                    */
-                    case "7":
-                        Console.Clear();
-
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("|");
-                        Console.WriteLine("| WARNING:");
-                        Console.WriteLine("| Creating a new garage will replace the current garage in memory.");
-                        Console.WriteLine("| Autosave may overwrite the saved file when new vehicles are added.");
-                        Console.WriteLine("|");
-                        Console.ResetColor();
-                        Console.WriteLine("|");
-                        Console.WriteLine("| You can still load previously saved vehicles if you don't");
-                        Console.WriteLine("| add any vehicles and only create a new empty garage.");
-                        Console.WriteLine("|");
-                        Console.WriteLine("| Do you want to continue creating a new garage? (y/n): ");
-                        
-                        string? input = Console.ReadLine();
-                        
-                        if (input?.ToLower() != "y")
-                        {
-                            Console.WriteLine();
-                            Console.WriteLine("~ Action cancelled. Returning to menu. ~");
-                            Helpers.CountDownToMenu();
-                            break;
-                        }
-
-                        Helpers.Pause();
-                        
-                        CreateGarage(); 
-                        PopulateGarage();
-                        break;
-                    /*
-                    case "8":
-                        FileHandler.LoadFromFile(garageHandler!);
-                        Helpers.Pause();
-                        break;
-                    */
-                    case "99":
-                        Console.WriteLine("Exiting the program...");
-                        ConsoleUI.Pause();
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid selection. Please choose a valid action from the menu.");
-                        Helpers.CountDownToMenu();
-                        break;
-                }
-  
+        if (garageHandler == null)
+        {
+            return;
         }
-        
+
+        ShowMainMenu();
     }
+
+    static void ShowStartMenu()
+    {
+        
+        string? action = "";
+
+        while (action != "0" && garageHandler == null)
+        {
+            
+            ConsoleUI.ShowStartMenu();
+            action = Console.ReadLine();
+
+            switch (action)
+            {
+                case "1":
+                CreateGarage();
+                break;
+
+                case "2":
+                ConsoleUI.ShowMessage("Load from file will be added later.", ConsoleColor.Yellow);
+                ConsoleUI.Pause();
+                break;
+
+                case "0":
+                ConsoleUI.ShowMessage("Exiting application...", ConsoleColor.Blue);
+                Thread.Sleep(1000);
+                break;
+
+                default:
+                ConsoleUI.ShowError("Invalid selection. Please try again.");
+                ConsoleUI.Pause();
+                break;
+            }
+        }
+    }
+
+
+    static void ShowMainMenu()
+    {
+        string? action = "";
+
+        while (action != "0")
+        {
+            
+            ConsoleUI.ShowMainMenu("Garage", 0, garageHandler!.Capacity);
+            action = Console.ReadLine();
+
+            switch (action)
+            {
+                case "1":
+                ShowParkedVehicles();
+                break;
+
+                case "2":
+                ConsoleUI.ShowMessage("Vehicle will be added later.", ConsoleColor.Yellow);
+                ConsoleUI.Pause();
+                break;
+
+                case "3":
+                AddVehicle();
+                break;
+
+                case "4":
+                RemoveVehicle();
+                break;
+
+                case "5":
+                SearchByRegNr();
+                break;
+
+                case "6":
+                ConsoleUI.ShowMessage("Search by properties will be added later.", ConsoleColor.Yellow);
+                ConsoleUI.Pause();
+                break;
+
+                case "7":
+                CreateGarage();
+                break;
+
+                case "8":
+                ConsoleUI.ShowMessage("Save garage will be added later.", ConsoleColor.Yellow);
+                ConsoleUI.Pause();
+                break;
+
+                case "9":
+                ConsoleUI.ShowMessage("Load garage will be added later.", ConsoleColor.Yellow);
+                ConsoleUI.Pause();
+                break;
+
+                case "0":
+                ConsoleUI.ShowMessage("Exiting application...", ConsoleColor.Blue);
+                Thread.Sleep(1000);
+                break;
+
+                default:
+                ConsoleUI.ShowError("Invalid selection. Please try again.");
+                ConsoleUI.Pause();
+                break;
+            }
+        }
+    }
+
+  
+        
+        
     
     static void CreateGarage()
     {
-        Console.Clear();
-        Console.WriteLine(" ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
-        Console.WriteLine("|                               |");
-        Console.WriteLine("| === BUILDING A NEW GARAGE === |");
-        Console.WriteLine("|                               |");
-        Console.WriteLine(" ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀");
-        Console.WriteLine();
-        Console.WriteLine("| Welcome! Before using the system, you need to create a garage.");
-        Console.WriteLine("|");
-        Console.Write("| Please enter the capacity of the garage (number of parking spots): ");
+        GarageHandler? newGarage = GarageFactory.CreateGarage();
 
-        int capacity;
-        while (!int.TryParse(Console.ReadLine(), out capacity) || capacity < 3)
+        if (newGarage == null)
         {
-            Console.WriteLine();
-            Console.Write("| Invalid input. Please enter a valid capacity for the garage (minimum 3): ");
+            ConsoleUI.ShowMessage("No garage was created.", ConsoleColor.DarkYellow);
+            ConsoleUI.Pause();
+            return;
         }
-        garageHandler = new GarageHandler(capacity);
 
-        Console.WriteLine("|");
-        Console.WriteLine($"| ~ Garage created with {capacity} parking slots. ~");
-        Thread.Sleep(1500);
+        garageHandler = newGarage;
+        ConsoleUI.ShowSuccess("Garage created successfully.");
+        ConsoleUI.Pause();
     }
 
     static void PopulateGarage()
     {
-        Console.Clear();
-        Console.WriteLine("▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▀▄▀▄▀▄▀▄▀");
-        Console.WriteLine();
-        Console.WriteLine(" ==== POPULATE GARAGE FROM START ====");
-        Console.WriteLine();
-        Console.WriteLine("▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀");
-        Console.WriteLine();
-        Console.Write("| Do you want to add vehicles from start? (y/n): ");
+        ConsoleUI.ShowHeader("Populate Garage from Start");
 
         string? input = Console.ReadLine();
 
@@ -174,19 +154,20 @@ class Program
         {
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("~ Garage starts empty. ~");
+            ConsoleUI.ShowMessage("~ Garage starts empty. ~", ConsoleColor.DarkYellow);
             Helpers.CountDownToMenu();
             return;
         }
         
-        Console.WriteLine("|");
-        Console.WriteLine("| How many vehicles do you want to add? (max " + garageHandler!.IsFull() + "): ");
+        Console.WriteLine("");
+        ConsoleUI.ShowMessage("How many vehicles do you want to add? (max " + garageHandler!.IsFull() + "): ");
 
         int amount;
         while (!int.TryParse(Console.ReadLine(), out amount) || amount < 1 || amount > garageHandler!.Capacity)
         {
             Console.WriteLine();
-            Console.Write("| Invalid input. Please enter a valid number of vehicles to add (1-" + garageHandler!.Capacity + "): ");
+            ConsoleUI.ShowMessage("Invalid input.", ConsoleColor.DarkYellow);
+            ConsoleUI.ShowMessage("Please enter a valid number of vehicles to add (1-" + garageHandler!.Capacity + "): ");
         }
 
         Console.Clear();
@@ -203,8 +184,8 @@ class Program
         
         if (garageHandler!.IsFull())
         {
-            ConsoleUI.ShowHeader("| Garage is Full");
-            ConsoleUI.ShowError("| Remove a vehicle or create a larger garage first.");
+            ConsoleUI.ShowHeader("Garage is Full!");
+            ConsoleUI.ShowError("Remove a vehicle or create a larger garage first.");
             ConsoleUI.Pause();
             return;
         }
@@ -215,7 +196,7 @@ class Program
 
         if (vehicle == null)
         {
-            Console.WriteLine("| Vehicle creation cancelled. Returning to menu.");
+            ConsoleUI.ShowError("Vehicle creation cancelled. Returning to menu.");
             Helpers.CountDownToMenu();
             return;
         }
@@ -224,13 +205,13 @@ class Program
 
         if (added)
         {
-            ConsoleUI.ShowSuccess($"| Vehicle {vehicle.RegNumber} added to the garage.");
+            ConsoleUI.ShowSuccess($"Vehicle {vehicle.RegNumber} added to the garage.");
 
             //FileHandler.SaveToFile(garageHandler!);
         }
         else
         {
-            ConsoleUI.ShowError("| Vehicle could not be added.");
+            ConsoleUI.ShowError("Vehicle could not be added.");
         }
         
         ConsoleUI.Pause();
@@ -256,13 +237,13 @@ class Program
 
         if (removed)
         {
-            ConsoleUI.ShowSuccess($"| Vehicle {regNumber} removed from the garage.");
+            ConsoleUI.ShowSuccess($"Vehicle {regNumber} removed from the garage.");
 
             //FileHandler.SaveToFile(garageHandler!);
         }
         else
         {
-            ConsoleUI.ShowError($"| No vehicle with registration number {regNumber} found in the garage.");
+            ConsoleUI.ShowError($"No vehicle with registration number {regNumber} found in the garage.");
         }
 
         Helpers.CountDownToMenu();
@@ -287,16 +268,16 @@ class Program
 
         if (foundVehicle != null)
         {
-            ConsoleUI.ShowSuccess("| Vehicle found:");
-            Console.WriteLine("|");
+            ConsoleUI.ShowSuccess("Vehicle found:");
+            Console.WriteLine("");
             Console.WriteLine(foundVehicle.GetInfo());
         }
         else
         {
-            ConsoleUI.ShowError($"| No vehicle with registration number {regNumber} found in the garage.");
+            ConsoleUI.ShowError($"No vehicle with registration number {regNumber} found in the garage.");
         }
 
-        Helpers.Pause();
+        ConsoleUI.Pause();
     } 
 
 
@@ -331,19 +312,13 @@ class Program
 
         // garageHandler!.SearchByProperty(action, searchValue);
 
-        Helpers.Pause();
+        ConsoleUI.Pause();
     }
 
 
     static void ShowParkedVehicles()
     {
-        Console.Clear();
-        Console.WriteLine(" ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄ ");
-        Console.WriteLine("|                                   |");
-        Console.WriteLine("|   PARKED VEHICLES IN THE GARAGE   |");
-        Console.WriteLine("|                                   |");
-        Console.WriteLine(" ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀ ");
-        Console.WriteLine();
+        ConsoleUI.ShowHeader("Parked Vehicles");
 
         Vehicle?[] vehicles = garageHandler!.GetVehicles();
 
@@ -371,10 +346,10 @@ class Program
 
         if (!foundVehicle)
         {
-            Console.WriteLine("~ No parked vehicles found. ~");
+            ConsoleUI.ShowMessage("~ No parked vehicles found. ~", ConsoleColor.DarkYellow);
         }
 
-        Helpers.Pause();
+        ConsoleUI.Pause();
     }
 
     

@@ -61,24 +61,25 @@ obj/Debug/net10.0/
 src/Garagev2/Core/
  Garage.cs
  GarageHandler.cs
-src/Garagev2/
- Factories/VehicleFactory.cs
- Helpers/
-  FIleHandler.cs
-  Helpers.cs
- Interfaces/
-  IHandler.cs
-  IVehicle.cs
- Models/
-  Airplane.cs
-  Boat.cs
-  Bus.cs
-  Car.cs
-  Motorcycle.cs
-  Vehicle.cs
- UI/
-  ConsoleUI.cs
-  Program.cs
+src/Garagev2/Factories/
+ GarageFactory.cs
+ VehicleFactory.cs
+src/Garagev2/Helpers/
+ FIleHandler.cs
+ Helpers.cs
+src/Garagev2/Interfaces/
+ IHandler.cs
+ IVehicle.cs
+src/Garagev2/Models/
+ Airplane.cs
+ Boat.cs
+ Bus.cs
+ Car.cs
+ Motorcycle.cs
+ Vehicle.cs
+src/Garagev2/UI/
+ ConsoleUI.cs
+ Program.cs
 tests/App.Tests/
  obj/Debug/net10.0/App.Tests.GlobalUsings.g.cs
  TestGarageHandler.cs

@@ -17,10 +17,13 @@ public static class ConsoleUI
         Console.WriteLine();
     }
 
-    public static void ShowMessage(string message)
+    public static void ShowMessage(string message, ConsoleColor color = ConsoleColor.Gray)
     {
+        Console.ForegroundColor = color;
         Console.WriteLine(message);
+        Console.ResetColor();
     }
+    
 
     public static void ShowSuccess(string message)
     {
@@ -89,4 +92,5 @@ public static class ConsoleUI
         Console.WriteLine();
         Console.Write("Select option: ");
     }
+    
 }
