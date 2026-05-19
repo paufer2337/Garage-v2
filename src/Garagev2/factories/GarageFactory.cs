@@ -15,37 +15,48 @@ public static class GarageFactory
 
         ShowGarageTypes();
 
-        int garageChoice = Helpers.GetValidInt("Select garage type: ", 1, 5);
+        int garageChoice = Helpers.GetValidInt("Select garage type: ", 1, 6);
         int capacity = Helpers.GetValidInt("Enter garage capacity: ", 1, 500);
         string garageTypeName = "";
+        string allowedVehicleType = "";
 
-        ConsoleUI.ShowMessage("");
 
         switch (garageChoice)
         {
             case 1:
-                ConsoleUI.ShowSuccess($"Standard Garage created with {capacity} parking spaces.");
+                garageTypeName = "Car Garage";
+                allowedVehicleType = "Car";
                 break;
 
             case 2:
-                ConsoleUI.ShowSuccess($"Motorcycle Garage created with {capacity} parking spaces.");
+                garageTypeName = "Motorcycle Garage";
+                allowedVehicleType = "Motorcycle";
                 break;
 
             case 3:
-                ConsoleUI.ShowSuccess($"Bus Garage created with {capacity} parking spaces.");
+                garageTypeName = "Bus Garage";
+                allowedVehicleType = "Bus";
                 break;
 
             case 4:
-                ConsoleUI.ShowSuccess($"Hangar created with {capacity} parking spaces.");
+                garageTypeName = "Hangar";
+                allowedVehicleType = "Airplane";
                 break;
 
             case 5:
-                ConsoleUI.ShowSuccess($"Harbor created with {capacity} parking spaces.");
+                garageTypeName = "Harbor";
+                allowedVehicleType = "Boat";
+                break;
+
+            case 6:
+                garageTypeName = "Mixed Garage";
+                allowedVehicleType = "All";
                 break;
         }
 
+        ConsoleUI.ShowSuccess($"{garageTypeName} created with {capacity} parking spaces.");
 
-        return new GarageHandler(capacity, garageTypeName);
+        return new GarageHandler(capacity, garageTypeName, allowedVehicleType);
     }
 
     private static void ShowGarageTypes()
@@ -53,11 +64,12 @@ public static class GarageFactory
 
         ConsoleUI.ShowHeader("Garage Types:");
 
-        ConsoleUI.ShowMessage("[1] Standard Garage");
+        ConsoleUI.ShowMessage("[1] Car Garage");
         ConsoleUI.ShowMessage("[2] Motorcycle Garage");
         ConsoleUI.ShowMessage("[3] Bus Garage");
         ConsoleUI.ShowMessage("[4] Hangar");
         ConsoleUI.ShowMessage("[5] Harbor");
+        ConsoleUI.ShowMessage("[6] Mixed Garage");
         ConsoleUI.ShowMessage("");
 
     }

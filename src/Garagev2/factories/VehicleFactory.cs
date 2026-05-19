@@ -10,7 +10,28 @@ public static class VehicleFactory
 {
     public static Vehicle? CreateVehicle(GarageHandler garageHandler)
     {
+        
         ConsoleUI.ShowHeader("Add Vehicle");
+        ConsoleUI.ShowMessage("");
+        
+        if (garageHandler.AllowedVehicleType != "All")
+        {
+            ConsoleUI.ShowMessage($"This garage only accepts: {garageHandler.AllowedVehicleType}");
+            ConsoleUI.ShowMessage("");
+
+            string regNumber = ReadRegNumber(garageHandler);
+            string color = Helpers.GetValidText("Enter color: ");
+            
+            return garageHandler.AllowedVehicleType switch
+            {
+                "Car" => CreateCar(regNumber, color),
+                "Motorcycle" => CreateMotorcycle(regNumber, color),
+                "Bus" => CreateBus(regNumber, color),
+                "Airplane" => CreateAirplane(regNumber, color),
+                "Boat" => CreateBoat(regNumber, color),
+                _ => null
+            };
+        }
 
         Console.WriteLine("Choose vehicle type:");
         Console.WriteLine();
@@ -31,19 +52,20 @@ public static class VehicleFactory
             return null;
         }
 
-        string regNumber = ReadRegNumber(garageHandler);
-        string color = Helpers.GetValidText("Enter color: ");
+        string regNumber2 = ReadRegNumber(garageHandler);
+        string color2 = Helpers.GetValidText("Enter color: ");
 
         return choice switch
         {
-            "1" => CreateCar(regNumber, color),
-            "2" => CreateMotorcycle(regNumber, color),
-            "3" => CreateBus(regNumber, color),
-            "4" => CreateBoat(regNumber, color),
-            "5" => CreateAirplane(regNumber, color),
+            "1" => CreateCar(regNumber2, color2),
+            "2" => CreateMotorcycle(regNumber2, color2),
+            "3" => CreateBus(regNumber2, color2),
+            "4" => CreateBoat(regNumber2, color2),
+            "5" => CreateAirplane(regNumber2, color2),
             _ => null
         };
     }
+    
 
     private static Car CreateCar(string regNumber, string color)
     {
