@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 
 
 
@@ -20,7 +21,7 @@ public static class VehicleFactory
             ConsoleUI.ShowMessage("");
 
             string regNumber = ReadRegNumber(garageHandler);
-            string color = Helpers.GetValidText("Enter color: ");
+            string color = Helpers.GetOnlyText("Enter color: ");
             
             return garageHandler.AllowedVehicleType switch
             {
@@ -74,7 +75,7 @@ public static class VehicleFactory
 
         while (true)
         {
-            string input = Helpers.GetValidText("Select Fuel Type ( [G] Gasoline / [D] Diesel ): )")
+            string input = Helpers.GetValidText("Select Fuel Type ( [G] Gasoline / [D] Diesel ): ")
             .Trim().ToUpper();
 
             switch (input)
@@ -89,7 +90,7 @@ public static class VehicleFactory
 
                 default:
                 ConsoleUI.ShowMessage("");
-                ConsoleUI.ShowError("Invalid fuel type. Please enter 'G' or 'D'.");
+                ConsoleUI.ShowError("\nInvalid fuel type. Please enter 'G' or 'D'.");
                 continue;
             }
 
@@ -102,7 +103,7 @@ public static class VehicleFactory
     private static Motorcycle CreateMotorcycle(string regNumber, string color)
     {
         int wheels = GetWheelRange("Motorcycle", 2, 3);
-        int cylinderVolume = Helpers.GetValidInt("Enter cylinder volume (cc): ");
+        int cylinderVolume = Helpers.GetValidInt("Enter cylinder volume (cc): ", 50, 2500, "Cylinder volume must be between 50 and 2500 cc.");
 
         return new Motorcycle(regNumber, color, wheels, cylinderVolume);
     }
@@ -141,15 +142,16 @@ public static class VehicleFactory
                 .Replace("-", "")
                 .ToUpper();
 
-            if (regNumber.Length != 6)
+
+            if (!Regex.IsMatch(regNumber, "^[A-Z]{3}[0-9]{3}$"))
             {
-                ConsoleUI.ShowError("Registration number must be exactly 6 characters, example ABC123.");
+                ConsoleUI.ShowError("\nRegistration number must use format ABC123.");
                 continue;
             }
 
             if (garageHandler.RegNrExists(regNumber))
             {
-                ConsoleUI.ShowError($"Registration number {regNumber} already exists.");
+                ConsoleUI.ShowError($"\nRegistration number {regNumber} already exists.");
                 continue;
             }
 
@@ -167,8 +169,8 @@ public static class VehicleFactory
             {
                 return wheels;
             }
+            ConsoleUI.ShowError($"\n{vehicleType} must have {expectedWheels} wheels in this system.");
             ConsoleUI.ShowMessage("");
-            ConsoleUI.ShowError($"{vehicleType} must have {expectedWheels} wheels in this system.");
         }
     }
 
@@ -182,8 +184,10 @@ public static class VehicleFactory
             {
                 return wheels;
             }
+
+            ConsoleUI.ShowError($"\n{vehicleType} must have between {min} and {max} wheels.");
             ConsoleUI.ShowMessage("");
-            ConsoleUI.ShowError($"{vehicleType} must have between {min} and {max} wheels.");
         }
+        
     }
 }

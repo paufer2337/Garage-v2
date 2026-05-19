@@ -74,8 +74,10 @@ public static class ConsoleUI
 
         Console.WriteLine("[1] List parked vehicles");
         Console.WriteLine("[2] List vehicle types");
-        Console.WriteLine("[3] Add vehicle");
-        Console.WriteLine("[4] Remove vehicle");
+        Console.WriteLine();
+        Console.WriteLine("[3] ADD vehicle");
+        Console.WriteLine("[4] REMOVE vehicle");
+        Console.WriteLine();
         Console.WriteLine("[5] Search by registration number");
         Console.WriteLine("[6] Search by properties");
 

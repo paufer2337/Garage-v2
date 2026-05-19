@@ -25,25 +25,8 @@ public static class Helpers
         return input;
     }
 
-    public static int GetValidInt(string message)
-    {
 
-        int value;
-
-        Console.Write(message);
-
-        while (true)
-        {
-            if (int.TryParse(Console.ReadLine(), out value) && value >= 0)
-            {
-                return value;
-            }
-            ConsoleUI.ShowError("Invalid input. Please enter a valid number.");
-            ConsoleUI.ShowMessage("");
-        }
-    }
-
-    public static int GetValidInt(string message, int min, int max)
+    public static int GetValidInt(string message, int min = 0, int max = int.MaxValue, string? errorMessage = null)
     {
 
         int value;
@@ -56,7 +39,7 @@ public static class Helpers
                 return value;
             }
 
-            ConsoleUI.ShowError($"Invalid input. Please enter a number between {min} and {max}.");
+            ConsoleUI.ShowError(errorMessage ?? $"Invalid input. Please enter a number between {min} and {max}.");
             ConsoleUI.ShowMessage("");
         }
     }
@@ -73,6 +56,24 @@ public static class Helpers
         }
 
         return value;
+    }
+
+
+    public static string GetOnlyText(string message)
+    {
+        while (true)
+        {
+            Console.Write(message);
+
+            string? input = Console.ReadLine()?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(input) && input.All(char.IsLetter))
+            {
+                return input;
+            }
+
+            ConsoleUI.ShowError("\nInput can only contain letters.");
+        }
     }
 
 

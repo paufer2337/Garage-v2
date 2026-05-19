@@ -231,9 +231,17 @@ class Program
         }
 
         ConsoleUI.ShowHeader("Remove Vehicle");
-        ConsoleUI.ShowMessage("");
+        ConsoleUI.ShowVehicleList(garageHandler.GetVehicles());
+        Console.WriteLine();
+        ConsoleUI.ShowMessage(" [0] Back");
+        Console.WriteLine();
 
         string regNumber = Helpers.GetValidText("Enter registration number of the vehicle to remove: ").ToUpper();
+
+        if (regNumber == "0")
+        {
+            return;
+        }
 
         bool removed = garageHandler!.RemoveVehicle(regNumber);
 

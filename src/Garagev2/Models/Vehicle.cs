@@ -1,5 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 
 
@@ -19,7 +20,7 @@ public abstract class Vehicle : IVehicle
     {
         RegNumber = NormalizeRegNumber(regNumber);
         ValidateRegNumber(RegNumber);
-        Color = ValidateText(color, nameof(color));
+        Color = ValidateText(color, nameof(color)).ToUpperInvariant();
         WheelAmount = ValidateWheelAmount(wheelAmount);
     }
 
@@ -35,6 +36,7 @@ public abstract class Vehicle : IVehicle
 
     private static string NormalizeRegNumber(string value)
     {
+        
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new ArgumentException("Registration number cannot be empty.", nameof(value));
@@ -55,44 +57,21 @@ public abstract class Vehicle : IVehicle
         }
     }
 
-    protected static string ValidateText(string value, string parameterName)
+    private static string ValidateText(string value, string name)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            throw new ArgumentException("Text value cannot be empty.", parameterName);
+            throw new ArgumentException("Text value cannot be empty.", name);
+        }
+
+        string trimmed = value.Trim();
+
+        if (!trimmed.All(char.IsLetter))
+        {
+            throw new ArgumentException("Text value can only contain letters.", name);
         }
 
         return value.Trim();
-    }
-
-    protected static int ValidatePositiveInt(int value, string parameterName, int min = 1, int max = int.MaxValue)
-    {
-        if (value < min)
-        {
-            throw new ArgumentOutOfRangeException(parameterName, $"{parameterName} must be at least {min}.");
-        }
-
-        if (value > max)
-        {
-            throw new ArgumentOutOfRangeException(parameterName, $"{parameterName} cannot be greater than {max}.");
-        }
-
-        return value;
-    }
-
-    protected static double ValidatePositiveDouble(double value, string parameterName, double min = 0.1, double max = double.MaxValue)
-    {
-        if (value < min)
-        {
-            throw new ArgumentOutOfRangeException(parameterName, $"{parameterName} must be at least {min}.");
-        }
-
-        if (value > max)
-        {
-            throw new ArgumentOutOfRangeException(parameterName, $"{parameterName} cannot be greater than {max}.");
-        }
-
-        return value;
     }
 
     private static int ValidateWheelAmount(int wheelAmount)
