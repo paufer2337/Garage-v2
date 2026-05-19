@@ -15,10 +15,13 @@ public static class GarageFactory
 
         ShowGarageTypes();
 
-        int garageType = Helpers.GetValidInt("Select garage type: ", 1, 5);
+        int garageChoice = Helpers.GetValidInt("Select garage type: ", 1, 5);
         int capacity = Helpers.GetValidInt("Enter garage capacity: ", 1, 500);
+        string garageTypeName = "";
 
-        switch (garageType)
+        ConsoleUI.ShowMessage("");
+
+        switch (garageChoice)
         {
             case 1:
                 ConsoleUI.ShowSuccess($"Standard Garage created with {capacity} parking spaces.");
@@ -42,7 +45,7 @@ public static class GarageFactory
         }
 
 
-        return new GarageHandler(capacity);
+        return new GarageHandler(capacity, garageTypeName);
     }
 
     private static void ShowGarageTypes()

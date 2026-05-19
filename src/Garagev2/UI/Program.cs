@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Linq;
 
 
 
@@ -8,7 +9,7 @@ namespace GarageConsoleApp;
 
 class Program
 {
-    private static GarageHandler? garageHandler;
+    static GarageHandler? garageHandler;
 
     static void Main()
     {
@@ -66,7 +67,7 @@ class Program
         while (action != "0")
         {
             
-            ConsoleUI.ShowMainMenu("Garage", 0, garageHandler!.Capacity);
+            ConsoleUI.ShowMainMenu(garageHandler!.GarageType, garageHandler.Count(), garageHandler.Capacity);
             action = Console.ReadLine();
 
             switch (action)
@@ -138,6 +139,7 @@ class Program
     static void PopulateGarage()
     {
         ConsoleUI.ShowHeader("Populate Garage from Start");
+        ConsoleUI.ShowMessage("");
 
         string? input = Console.ReadLine();
 
@@ -173,9 +175,20 @@ class Program
     static void AddVehicle()
     {
         
+        if (garageHandler == null)
+        {
+            Console.Clear();
+            ConsoleUI.ShowError("No active garage. Please create a garage first.");
+            Helpers.CountDownToMenu();
+            return;
+        }
+        
+        
         if (garageHandler!.IsFull())
         {
+            Console.Clear();
             ConsoleUI.ShowHeader("Garage is Full!");
+            ConsoleUI.ShowMessage("");
             ConsoleUI.ShowError("Remove a vehicle or create a larger garage first.");
             ConsoleUI.Pause();
             return;
@@ -196,9 +209,7 @@ class Program
 
         if (added)
         {
-            ConsoleUI.ShowSuccess($"Vehicle {vehicle.RegNumber} added to the garage.");
-
-            //FileHandler.SaveToFile(garageHandler!);
+            ConsoleUI.ShowSuccess($"Vehicle {vehicle.GetType().Name} with registration number {vehicle.RegNumber} added to the garage.");
         }
         else
         {
@@ -211,20 +222,21 @@ class Program
 
     static void RemoveVehicle()
     {
-        Console.Clear();
-        Console.WriteLine(" ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
-        Console.WriteLine("|                             |");
-        Console.WriteLine("| ==== REMOVE A VEHICLE ====  |");
-        Console.WriteLine("|                             |");
-        Console.WriteLine(" ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀");
-        Console.WriteLine();
-        Console.WriteLine("| Removing a vehicle from the garage.");
-        Console.WriteLine("|");
-        string regNumber = Helpers.GetValidText("| Enter registration number of the vehicle to remove: ").ToUpper();
+        if (garageHandler == null)
+        {
+            Console.Clear();
+            ConsoleUI.ShowError("No active garage. Please create a garage first.");
+            Helpers.CountDownToMenu();
+            return;
+        }
+
+        ConsoleUI.ShowHeader("Remove Vehicle");
+        ConsoleUI.ShowMessage("");
+
+        string regNumber = Helpers.GetValidText("Enter registration number of the vehicle to remove: ").ToUpper();
 
         bool removed = garageHandler!.RemoveVehicle(regNumber);
 
-        Console.WriteLine();
 
         if (removed)
         {
@@ -237,36 +249,37 @@ class Program
             ConsoleUI.ShowError($"No vehicle with registration number {regNumber} found in the garage.");
         }
 
-        Helpers.CountDownToMenu();
+        ConsoleUI.Pause();
     } 
 
     static void SearchByRegNr()
     {
-        Console.Clear();
-        Console.WriteLine(" ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
-        Console.WriteLine("|                             |");
-        Console.WriteLine("|   SEARCH VEHICLE BY REGNR   |");
-        Console.WriteLine("|                             |");
-        Console.WriteLine(" ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀");
-        Console.WriteLine();
-        Console.WriteLine("| Searching for a vehicle by registration number.");
-        Console.WriteLine("|");
-        string regNumber = Helpers.GetValidText("| Enter registration number to search: ").ToUpper();
-
-        Vehicle? foundVehicle = garageHandler!.FindVehicle(regNumber);
-
-        Console.WriteLine("|");
-
-        if (foundVehicle != null)
+        if (garageHandler == null)
         {
-            ConsoleUI.ShowSuccess("Vehicle found:");
-            Console.WriteLine("");
-            Console.WriteLine(foundVehicle.GetInfo());
+            Console.Clear();
+            ConsoleUI.ShowError("No active garage. Please create a garage first.");
+            Helpers.CountDownToMenu();
+            return;
         }
-        else
+        ConsoleUI.ShowHeader("Search by Registration Number");
+        ConsoleUI.ShowMessage("");
+
+        string regNumber = Helpers.GetValidText("Enter registration number to search: ").ToUpper();
+
+        Vehicle? Vehicle = garageHandler!.FindVehicle(regNumber);
+
+
+        if (Vehicle == null)
         {
             ConsoleUI.ShowError($"No vehicle with registration number {regNumber} found in the garage.");
         }
+        else
+        {
+            ConsoleUI.ShowSuccess("Vehicle found:");
+            ConsoleUI.ShowMessage("");
+            ConsoleUI.ShowVehicle(Vehicle);
+        }
+       
 
         ConsoleUI.Pause();
     } 
@@ -274,70 +287,41 @@ class Program
 
     static void SearchByProperties()
     {
-        Console.Clear();
-        Console.WriteLine("  ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄");
-        Console.WriteLine("|                              |");
-        Console.WriteLine("| SEARCH VEHICLE BY PROPERTIES |");
-        Console.WriteLine("|                              |");
-        Console.WriteLine("  ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀");
-        Console.WriteLine();
-        Console.WriteLine("| [1] Type");
-        Console.WriteLine("| [2] Color");
-        Console.WriteLine("| [3] Wheels");
-        Console.WriteLine("|");
-        Console.WriteLine("| [0] Back");
-
-
-        Console.WriteLine();
-
-        Console.Write("Select property to search by: ");
-        string? action = Console.ReadLine();
-
-        if (action == "0")
+        if (garageHandler == null)
         {
+            Console.Clear();
+            ConsoleUI.ShowError("No active garage. Please create a garage first.");
+            Helpers.CountDownToMenu();
             return;
         }
 
-       
-        string searchValue = Helpers.GetValidText("| Search for: ");
+        ConsoleUI.ShowHeader("Search by Properties");
+        ConsoleUI.ShowMessage("");
 
-        // garageHandler!.SearchByProperty(action, searchValue);
+        string color = Helpers.GetValidText("Enter color to search: ").ToUpper();
 
+        IEnumerable<Vehicle> vehicles = garageHandler.GetVehicles();
+
+        IEnumerable<Vehicle> matches = vehicles.Where(v =>
+        v. Color.Equals(color, StringComparison.OrdinalIgnoreCase));
+
+        ConsoleUI.ShowMessage("");
+        ConsoleUI.ShowVehicleList(matches);
         ConsoleUI.Pause();
     }
 
 
     static void ShowParkedVehicles()
     {
-        ConsoleUI.ShowHeader("Parked Vehicles");
-
-        IEnumerable<Vehicle> vehicles = garageHandler!.GetVehicles();
-
-        bool foundVehicle = false;
-        int vehicleNr = 1;
-
-        Console.WriteLine("| No.  Type       RegNr       Color        Wheels     Extra              |");
-        Console.WriteLine("| ---------------------------------------------------------------------- |");
-
-        foreach (Vehicle vehicle in vehicles)
+        if (garageHandler == null)
         {
-            
-            Console.WriteLine($" [{vehicleNr}] " +
-                $"{vehicle.GetType().Name,-13}" +
-                $"{vehicle.RegNumber,-12}" +
-                $"{vehicle.Color,-14}" +
-                $"{vehicle.WheelAmount,-8}" +
-                $"{vehicle.GetExtraInfo(),-19} ");
-
-            vehicleNr++;
-            foundVehicle = true;
+            Console.Clear();
+            ConsoleUI.ShowError("No active garage. Please create a garage first.");
+            Helpers.CountDownToMenu();
+            return;
         }
 
-        if (!foundVehicle)
-        {
-            ConsoleUI.ShowMessage("~ No parked vehicles found. ~", ConsoleColor.DarkYellow);
-        }
-
+        ConsoleUI.ShowVehicleList(garageHandler.GetVehicles());
         ConsoleUI.Pause();
     }
 

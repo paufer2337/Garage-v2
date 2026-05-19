@@ -48,7 +48,31 @@ public static class VehicleFactory
     private static Car CreateCar(string regNumber, string color)
     {
         int wheels = GetExactWheels("Car", 4);
-        string fuelType = Helpers.GetValidText("Enter fuel type (Gasoline/Diesel): ");
+        string fuelType;
+
+        while (true)
+        {
+            string input = Helpers.GetValidText("Select Fuel Type ( [G] Gasoline / [D] Diesel ): )")
+            .Trim().ToUpper();
+
+            switch (input)
+            {
+                case "G":
+                fuelType = "Gasoline";
+                break;
+
+                case "D":
+                fuelType = "Diesel";
+                break;
+
+                default:
+                ConsoleUI.ShowMessage("");
+                ConsoleUI.ShowError("Invalid fuel type. Please enter 'G' or 'D'.");
+                continue;
+            }
+
+            break;
+        }
 
         return new Car(regNumber, color, wheels, fuelType);
     }
@@ -121,7 +145,7 @@ public static class VehicleFactory
             {
                 return wheels;
             }
-
+            ConsoleUI.ShowMessage("");
             ConsoleUI.ShowError($"{vehicleType} must have {expectedWheels} wheels in this system.");
         }
     }
@@ -136,7 +160,7 @@ public static class VehicleFactory
             {
                 return wheels;
             }
-
+            ConsoleUI.ShowMessage("");
             ConsoleUI.ShowError($"{vehicleType} must have between {min} and {max} wheels.");
         }
     }

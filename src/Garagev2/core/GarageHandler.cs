@@ -12,11 +12,20 @@ public class GarageHandler
     
     private readonly Garage<Vehicle> garage;
 
+    public string GarageType { get; }
+    public string OneVehicleType { get; }
     public int Capacity => garage.Capacity;
 
-    public GarageHandler(int capacity)
+    public int Count()
+    {
+        return garage.Count();
+    }
+
+    public GarageHandler(int capacity, string garageType, string oneVehicleType)
     {
         garage = new Garage<Vehicle>(capacity);
+        GarageType = garageType;
+        OneVehicleType = oneVehicleType;
     }
 
     public bool AddVehicle(Vehicle vehicle)
@@ -52,5 +61,6 @@ public class GarageHandler
     {
         return garage.IsFull();
     }
+
 
 }

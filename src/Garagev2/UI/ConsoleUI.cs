@@ -27,6 +27,7 @@ public static class ConsoleUI
 
     public static void ShowSuccess(string message)
     {
+        Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"Success: {message}");
         Console.ResetColor();
@@ -34,6 +35,7 @@ public static class ConsoleUI
 
     public static void ShowError(string message)
     {
+        Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"Error: {message}");
         Console.ResetColor();
@@ -63,13 +65,10 @@ public static class ConsoleUI
         Console.Write("Select option: ");
     }
 
-    public static void ShowMainMenu(string garageName, int parkedVehicles, int capacity)
+    public static void ShowMainMenu(string garageType, int parkedVehicles, int capacity)
     {
         
         ShowHeader("Garage 2.0");
-
-        Console.WriteLine($"Active garage: {garageName}");
-        Console.WriteLine($"Vehicles parked: {parkedVehicles}/{capacity}");
 
         Console.WriteLine();
 
@@ -92,6 +91,51 @@ public static class ConsoleUI
 
         Console.WriteLine();
         Console.Write("Select option: ");
+    }
+
+
+    public static void ShowVehicleList(IEnumerable<Vehicle> vehicles)
+    {
+        ShowHeader("Parked Vehicles");
+
+        bool foundVehicle = false;
+        int vehicleNr = 1;
+
+        Console.WriteLine("| No.  Type       RegNr       Color        Wheels     Extra              |");
+        Console.WriteLine("| ---------------------------------------------------------------------- |");
+
+        foreach (Vehicle vehicle in vehicles)
+        {
+            
+            Console.WriteLine($" [{vehicleNr}] " +
+                $"{vehicle.GetType().Name,-13}" +
+                $"{vehicle.RegNumber,-12}" +
+                $"{vehicle.Color,-14}" +
+                $"{vehicle.WheelAmount,-8}" +
+                $"{vehicle.GetExtraInfo(),-19} ");
+
+            vehicleNr++;
+            foundVehicle = true;
+        }
+
+        if (!foundVehicle)
+        {
+            ShowMessage("~ No parked vehicles found. ~", ConsoleColor.DarkYellow);
+        }
+
+    }
+
+
+    public static void ShowVehicle(Vehicle vehicle)
+    {
+        ShowHeader("Vehicle Found");
+        ShowMessage("");
+
+        ShowMessage($"Type: {vehicle.GetType().Name}");
+        ShowMessage($"Registration Number: {vehicle.RegNumber}");
+        ShowMessage($"Color: {vehicle.Color}");
+        ShowMessage($"Wheels: {vehicle.WheelAmount}");
+        ShowMessage($"Extra Information: {vehicle.GetExtraInfo()}");
     }
     
 }
