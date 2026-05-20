@@ -133,9 +133,6 @@ public class GarageApp
         }
     }
 
-  
-        
-        
     
     static void CreateGarage()
     {
@@ -144,41 +141,6 @@ public class GarageApp
         ConsoleUI.Pause();
     }
 
-    static void PopulateGarage()
-    {
-        ConsoleUI.ShowHeader("Populate Garage from Start");
-        ConsoleUI.ShowMessage("");
-
-        string? input = Console.ReadLine();
-
-        if (input?.ToLower() != "y")
-        {
-            Console.Clear();
-            Console.WriteLine();
-            ConsoleUI.ShowMessage("~ Garage starts empty. ~", ConsoleColor.DarkYellow);
-            Helpers.CountDownToMenu();
-            return;
-        }
-        
-        Console.WriteLine("");
-        ConsoleUI.ShowMessage("How many vehicles do you want to add? (max " + garageHandler!.IsFull() + "): ");
-
-        int amount;
-        while (!int.TryParse(Console.ReadLine(), out amount) || amount < 1 || amount > garageHandler!.Capacity)
-        {
-            Console.WriteLine();
-            ConsoleUI.ShowMessage("Invalid input.", ConsoleColor.DarkYellow);
-            ConsoleUI.ShowMessage("Please enter a valid number of vehicles to add (1-" + garageHandler!.Capacity + "): ");
-        }
-
-        Console.Clear();
-
-        for (int i = 0; i < amount; i++)
-        {
-            AddVehicle();
-        }
-        
-    }
 
     static void AddVehicle()
     {
@@ -201,10 +163,8 @@ public class GarageApp
             ConsoleUI.Pause();
             return;
         }
-    
         
         Vehicle? vehicle = VehicleFactory.CreateVehicle(garageHandler);
-
 
         if (vehicle == null)
         {
@@ -243,7 +203,8 @@ public class GarageApp
         ConsoleUI.ShowMessage(" [0] Back");
         Console.WriteLine();
 
-        int choice = Helpers.GetValidInt(" Select index number to remove the vehicle: ", 0, garageHandler.Count(), "Please select a valid index number or type '0' to go back.");
+        int choice = Helpers.GetValidInt(" Select index number to remove the vehicle: ", 0, 
+        garageHandler.Count(), "Please select a valid index number or type '0' to go back.");
 
         if (choice == 0)
         {
@@ -284,7 +245,8 @@ public class GarageApp
             ConsoleUI.Pause();
         }
 
-        if (garageHandler != null && garageHandler.AllowedVehicleType != loadedGarage!.AllowedVehicleType)
+        if (garageHandler != null && garageHandler.AllowedVehicleType != "All" 
+        && garageHandler.AllowedVehicleType != loadedGarage!.AllowedVehicleType)
         {
             ConsoleUI.ShowError(
             $"Cannot load saved {loadedGarage.GarageType} into current {garageHandler.GarageType}.");
@@ -297,8 +259,25 @@ public class GarageApp
             return;
         }
 
+
+        if (garageHandler != null && loadedGarage!.Count() > garageHandler.Capacity)
+        {
+            ConsoleUI.ShowError(
+            $"Cannot load saved garage. It contains {loadedGarage.Count()
+            } vehicles, but current garage capacity is only {garageHandler.Capacity}.");
+
+            ConsoleUI.ShowMessage(
+            $"Create a larger {garageHandler.GarageType} first, or reduce the saved vehicles.",
+            ConsoleColor.Yellow);
+
+            ConsoleUI.Pause();
+            return;
+        }
+
+
         if (garageHandler != null && garageHandler.Count() > 0)
         {
+            Console.WriteLine();
             ConsoleUI.ShowError("\nWarning! Loading this file will replace your current vehicles.");
             ConsoleUI.ShowMessage("Do you want to continue? (y/n): ", ConsoleColor.Yellow);
 
@@ -306,6 +285,7 @@ public class GarageApp
 
             if (confirm?.ToLower() != "y")
             {
+                Console.WriteLine();
                 ConsoleUI.ShowMessage("Load cancelled.", ConsoleColor.DarkYellow);
                 ConsoleUI.Pause();
                 return;
@@ -316,6 +296,7 @@ public class GarageApp
         ConsoleUI.ShowSuccess("Garage loaded successfully");
         ConsoleUI.Pause();
     }
+
 
     static void SaveGarage()
     {
@@ -376,9 +357,9 @@ public class GarageApp
         }
 
         ConsoleUI.ShowHeader("Search by Properties");
-        ConsoleUI.ShowMessage("[1] Search by vehicle type");
-        ConsoleUI.ShowMessage("[2] Search by color");
-        ConsoleUI.ShowMessage("[3] Search by wheel amount");
+        ConsoleUI.ShowMessage("[1] Search by Vehicle Type");
+        ConsoleUI.ShowMessage("[2] Search by Color");
+        ConsoleUI.ShowMessage("[3] Search by Wheels");
         ConsoleUI.ShowMessage("[4] Combined search");
         ConsoleUI.ShowMessage("");
         ConsoleUI.ShowMessage("[0] Back");        
@@ -387,6 +368,7 @@ public class GarageApp
         string? choice = Console.ReadLine();
         IEnumerable<Vehicle> matches;
 
+        Console.WriteLine();
         switch (choice)
         {
             case "1":

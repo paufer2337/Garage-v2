@@ -46,9 +46,9 @@ public static class VehicleFactory
         Console.WriteLine();
         Console.Write("Select option: ");
 
-        string? choice = Console.ReadLine();
+        int choice = Helpers.GetValidInt("Select option: ", 0, 5);
 
-        if (choice == "0")
+        if (choice == 0)
         {
             return null;
         }
@@ -58,11 +58,11 @@ public static class VehicleFactory
 
         return choice switch
         {
-            "1" => TryCreate (() => CreateCar(regNumber2, color2)),
-            "2" => TryCreate (() => CreateMotorcycle(regNumber2, color2)),
-            "3" => TryCreate (() => CreateBus(regNumber2, color2)),
-            "4" => TryCreate (() => CreateBoat(regNumber2, color2)),
-            "5" => TryCreate (() => CreateAirplane(regNumber2, color2)),
+            1 => TryCreate (() => CreateCar(regNumber2, color2)),
+            2 => TryCreate (() => CreateMotorcycle(regNumber2, color2)),
+            3 => TryCreate (() => CreateBus(regNumber2, color2)),
+            4 => TryCreate (() => CreateBoat(regNumber2, color2)),
+            5 => TryCreate (() => CreateAirplane(regNumber2, color2)),
             _ => null
         };
     }

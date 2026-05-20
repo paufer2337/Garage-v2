@@ -1,49 +1,28 @@
 {
-  "GarageType": "Car Garage",
-  "AllowedVehicleType": "Car",
-  "Capacity": 6,
+  "GarageType": "Harbor",
+  "AllowedVehicleType": "Boat",
+  "Capacity": 50,
   "Vehicles": [
     {
-      "Type": "Car",
+      "Type": "Boat",
+      "RegNumber": "FQC365",
+      "Color": "GRAY",
+      "WheelAmount": 0,
+      "Extra": "12"
+    },
+    {
+      "Type": "Boat",
       "RegNumber": "QWE123",
-      "Color": "BLUE",
-      "WheelAmount": 4,
-      "Extra": "Gasoline"
+      "Color": "RED",
+      "WheelAmount": 0,
+      "Extra": "5"
     },
     {
-      "Type": "Car",
-      "RegNumber": "QWE456",
-      "Color": "YELLOW",
-      "WheelAmount": 4,
-      "Extra": "Diesel"
-    },
-    {
-      "Type": "Car",
-      "RegNumber": "ABC123",
-      "Color": "BLUE",
-      "WheelAmount": 4,
-      "Extra": "Diesel"
-    },
-    {
-      "Type": "Car",
-      "RegNumber": "ABC456",
-      "Color": "YELLOW",
-      "WheelAmount": 4,
-      "Extra": "Diesel"
-    },
-    {
-      "Type": "Car",
-      "RegNumber": "ABC789",
-      "Color": "BLACK",
-      "WheelAmount": 4,
-      "Extra": "Diesel"
-    },
-    {
-      "Type": "Car",
-      "RegNumber": "QWE321",
-      "Color": "YELLOW",
-      "WheelAmount": 4,
-      "Extra": "Gasoline"
+      "Type": "Boat",
+      "RegNumber": "ASD123",
+      "Color": "GRAY",
+      "WheelAmount": 0,
+      "Extra": "5"
     }
   ]
 }

@@ -9,20 +9,20 @@ public static class Helpers
 {
     public static string GetValidText(string message)
     {
-        Console.Write(message);
-        
-        string? input = Console.ReadLine();
-
-        while (string.IsNullOrWhiteSpace(input))
+        while (true)
         {
+            Console.Write(message);
             
-            Console.WriteLine("Input cannot be empty. Please try again.");
-            Console.WriteLine();
-            input = Console.ReadLine();
-        }
-     
+            string? input = Console.ReadLine();
 
-        return input;
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                return input.Trim();
+            }
+            ConsoleUI.ShowError("Input cannot be empty. Please try again.");
+            Console.WriteLine();
+        }
+        
     }
 
 

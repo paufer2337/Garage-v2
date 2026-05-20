@@ -83,7 +83,7 @@ public static class ConsoleUI
 
         Console.WriteLine();
 
-        Console.WriteLine("[7] Create or switch garage");
+        Console.WriteLine("[7] Create new or switch garage");
         Console.WriteLine("[8] Save garage");
         Console.WriteLine("[9] Load garage");
 
@@ -137,7 +137,7 @@ public static class ConsoleUI
         ShowMessage($"Registration Number: {vehicle.RegNumber}");
         ShowMessage($"Color: {vehicle.Color}");
         ShowMessage($"Wheels: {vehicle.WheelAmount}");
-        ShowMessage($"Extra Information: {vehicle.GetExtraInfo()}");
+        ShowMessage($"Extra Attribute: {vehicle.GetExtraInfo()}");
     }
     
 }
