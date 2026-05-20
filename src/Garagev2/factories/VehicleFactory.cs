@@ -54,7 +54,7 @@ public static class VehicleFactory
         }
 
         string regNumber2 = ReadRegNumber(garageHandler);
-        string color2 = Helpers.GetValidText("Enter color: ");
+        string color2 = Helpers.GetOnlyText("Enter color: ");
 
         return choice switch
         {
@@ -90,7 +90,8 @@ public static class VehicleFactory
 
                 default:
                 ConsoleUI.ShowMessage("");
-                ConsoleUI.ShowError("\nInvalid fuel type. Please enter 'G' or 'D'.");
+                ConsoleUI.ShowError("Invalid fuel type. Please enter 'G' or 'D'.");
+                Console.WriteLine();
                 continue;
             }
 
@@ -110,8 +111,8 @@ public static class VehicleFactory
 
     private static Bus CreateBus(string regNumber, string color)
     {
-        int wheels = GetWheelRange("Bus", 4, 10);
-        int seats = Helpers.GetValidInt("Enter number of seats: ");
+        int wheels = GetBusWheels();
+        int seats = Helpers.GetValidInt("Enter number of seats: ", 55, 100, "Bus must have between 55-100 seats.");
 
         return new Bus(regNumber, color, wheels, seats);
     }
@@ -119,15 +120,15 @@ public static class VehicleFactory
     private static Boat CreateBoat(string regNumber, string color)
     {
         int wheels = GetExactWheels("Boat", 0);
-        double length = Helpers.GetValidDouble("Enter length in meters: ");
+        double length = Helpers.GetValidDouble("Enter length in meters: ", 5, 12, "Boat length must be between 5-12 meters.");
 
         return new Boat(regNumber, color, wheels, length);
     }
 
     private static Airplane CreateAirplane(string regNumber, string color)
     {
-        int wheels = GetWheelRange("Airplane", 3, 18);
-        int engines = Helpers.GetValidInt("Enter number of engines: ");
+        int wheels = GetAirplaneWheels();
+        int engines = Helpers.GetValidInt("Enter number of engines: ", 1, 2, "Airplane must have 1 or 2 engines.");
 
         return new Airplane(regNumber, color, wheels, engines);
     }
@@ -145,13 +146,15 @@ public static class VehicleFactory
 
             if (!Regex.IsMatch(regNumber, "^[A-Z]{3}[0-9]{3}$"))
             {
-                ConsoleUI.ShowError("\nRegistration number must use format ABC123.");
+                ConsoleUI.ShowError("Registration number must use format ABC123.");
+                Console.WriteLine();
                 continue;
             }
 
             if (garageHandler.RegNrExists(regNumber))
             {
-                ConsoleUI.ShowError($"\nRegistration number {regNumber} already exists.");
+                ConsoleUI.ShowError($"Registration number {regNumber} already exists.");
+                Console.WriteLine();
                 continue;
             }
 
@@ -169,8 +172,8 @@ public static class VehicleFactory
             {
                 return wheels;
             }
-            ConsoleUI.ShowError($"\n{vehicleType} must have {expectedWheels} wheels in this system.");
-            ConsoleUI.ShowMessage("");
+            ConsoleUI.ShowError($"{vehicleType} must have {expectedWheels} wheels in this system.");
+            Console.WriteLine();
         }
     }
 
@@ -185,9 +188,33 @@ public static class VehicleFactory
                 return wheels;
             }
 
-            ConsoleUI.ShowError($"\n{vehicleType} must have between {min} and {max} wheels.");
-            ConsoleUI.ShowMessage("");
+            ConsoleUI.ShowError($"{vehicleType} must have between {min} and {max} wheels.");
+            Console.WriteLine();
         }
+        
+    }
+
+    private static int GetBusWheels()
+    {
+        while (true)
+        {
+            int wheels = Helpers.GetValidInt(
+            "Enter number of wheels for Bus: ", 4, 6, "Bus must have either 4 or 6 wheels.");
+
+            if (wheels == 4 || wheels == 6)
+            {
+                return wheels;
+            }
+
+            ConsoleUI.ShowError("Bus must have either 4 or 6 wheels.");
+            Console.WriteLine();
+        }
+    }
+
+    private static int GetAirplaneWheels()
+    {   
+        return Helpers.GetValidInt(
+        "Enter number of wheels for Airplane: ", 3, 6, "Airplane must have between 3 and 6 wheels.");
         
     }
 }

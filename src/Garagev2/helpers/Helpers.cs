@@ -39,23 +39,28 @@ public static class Helpers
                 return value;
             }
 
-            ConsoleUI.ShowError(errorMessage ?? $"Invalid input. Please enter a number between {min} and {max}.");
-            ConsoleUI.ShowMessage("");
+            ConsoleUI.ShowError(errorMessage ?? $"Invalid input. Please enter a valid number.");
+            Console.WriteLine();
         }
     }
 
-    public static double GetValidDouble(string message)
+    public static double GetValidDouble(string message, double min = 0, double max = double.MaxValue, string? errorMessage = null)
     {
-        Console.Write(message);
         
         double value;
-        while (!double.TryParse(Console.ReadLine(), out value) || value < 0)
+        while (true)
         {
-            Console.WriteLine("Invalid input. Please enter a valid number.");
+            Console.WriteLine();
+            Console.Write(message);
+            
+            if (double.TryParse(Console.ReadLine(), out value) && value >= min && value <= max)
+            {
+                return value;
+            }
+
+            ConsoleUI.ShowError(errorMessage ?? $"Invalid input. Please enter a number between {min} and {max}.");
             Console.WriteLine();
         }
-
-        return value;
     }
 
 
@@ -72,7 +77,8 @@ public static class Helpers
                 return input;
             }
 
-            ConsoleUI.ShowError("\nInput can only contain letters.");
+            ConsoleUI.ShowError("Input can only contain letters.");
+            Console.WriteLine();
         }
     }
 

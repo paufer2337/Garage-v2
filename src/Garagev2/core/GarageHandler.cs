@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 
 
 
@@ -63,4 +64,8 @@ public class GarageHandler
     }
 
 
+    public Vehicle? GetVehicleIndex(int index)
+    {
+        return garage.GetVehicles().ElementAtOrDefault(index - 1);
+    }
 }

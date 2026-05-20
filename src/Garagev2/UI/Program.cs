@@ -14,6 +14,8 @@ class Program
     static void Main()
     {
 
+        Console.CancelKeyPress += OnExit;
+
         ShowStartMenu();
 
         if (garageHandler == null)
@@ -52,6 +54,7 @@ class Program
                 break;
 
                 default:
+                ConsoleUI.ShowMessage("");
                 ConsoleUI.ShowError("Invalid selection. Please try again.");
                 ConsoleUI.Pause();
                 break;
@@ -230,31 +233,39 @@ class Program
             return;
         }
 
-        ConsoleUI.ShowHeader("Remove Vehicle");
         ConsoleUI.ShowVehicleList(garageHandler.GetVehicles());
         Console.WriteLine();
         ConsoleUI.ShowMessage(" [0] Back");
         Console.WriteLine();
 
-        string regNumber = Helpers.GetValidText("Enter registration number of the vehicle to remove: ").ToUpper();
+        int choice = Helpers.GetValidInt(" Select index number to remove the vehicle: ", 0, garageHandler.Count(), "Please select a valid index number or type '0' to go back.");
 
-        if (regNumber == "0")
+        if (choice == 0)
         {
             return;
         }
 
-        bool removed = garageHandler!.RemoveVehicle(regNumber);
+        Vehicle? vehicle = garageHandler.GetVehicleIndex(choice);
+
+        if (vehicle == null)
+        {
+            ConsoleUI.ShowError("Vehicle could not be found.");
+            ConsoleUI.Pause();
+            return;
+        }
+
+        bool removed = garageHandler.RemoveVehicle(vehicle.RegNumber);
 
 
         if (removed)
         {
-            ConsoleUI.ShowSuccess($"Vehicle {regNumber} removed from the garage.");
+            ConsoleUI.ShowSuccess($"{vehicle.VehicleType} {vehicle.RegNumber} removed from the garage.");
 
             //FileHandler.SaveToFile(garageHandler!);
         }
         else
         {
-            ConsoleUI.ShowError($"No vehicle with registration number {regNumber} found in the garage.");
+            ConsoleUI.ShowError("Vehicle could not be removed, please try again.");
         }
 
         ConsoleUI.Pause();
@@ -331,6 +342,18 @@ class Program
 
         ConsoleUI.ShowVehicleList(garageHandler.GetVehicles());
         ConsoleUI.Pause();
+    }
+
+    static void OnExit(object? sender, ConsoleCancelEventArgs e)
+    {
+        e.Cancel = true;
+        Console.WriteLine();
+        Console.WriteLine();
+        ConsoleUI.ShowMessage("Exiting application...", ConsoleColor.Blue);
+
+        Thread.Sleep(1000);
+
+        Environment.Exit(0);
     }
 
     
