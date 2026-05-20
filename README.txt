@@ -4,10 +4,16 @@ ___________________________________________________________
 
 ¤ Hur är programmets struktur uppbyggd?
 
- - Program.cs      (UI + huvudmeny + användarinteraktion)
+ - Program.cs      (Entrypoint + startar appen)
  - Garage.cs       (Garage-logik + hantering av vehicle-array)
  - Vehicle.cs      (Abstrakt basklass för alla fordon)
  - Helpers.cs      (Validering + hjälpmetoder)
+ - GarageApp.cs    (App-flow + navigation + menyer)
+ - ConsoleUI.cs    (Presentation + output)
+ - GarageHandler.cs(Bridge mellan UI och Garage)
+ - VehicleFactory.cs (Vehicle creation + validation flow)
+ - GarageFactory.cs  (Garage creation)
+ - FileHandler.cs    (JSON persistence)
 
 ===========================================================
 
@@ -16,7 +22,15 @@ ___________________________________________________________
 
 
 ~ Basklass:
-|   Vehicle         = Gemensam basklass för alla fordon  
+|   Vehicle         = Gemensam basklass för alla fordon
+
+~ Core:
+|   Garage<T>       = Generisk garage-collection                              |
+|   GarageHandler   = Business logic + LINQ filtering
+
+~ UI:
+|   GarageApp       = App-flow + navigation                                   |
+|   ConsoleUI       = Console-presentation + output                           |                         |
 
 ~ Interfaces:
 |   IVehicle        = Kontrakt för alla fordon                                |
@@ -82,7 +96,7 @@ ___________________________________________________________
 |   GetExtraInfo        = Returnerar subclass-specifik property               |
 |   Vehicle()           = Baskonstruktor + validering                         |
 |   RegNumber           = Regex-validering + normalisering                    |
-|   Color               = Letters-only validation                             |
+|   Color               = Fördefinierad color-validation                              |
 |   WheelAmount         = Wheel validation                                    |
 
 ~ Helpers.cs:
@@ -154,6 +168,7 @@ ___________________________________________________________
 |   Console.Clear()     = Renare flöde mellan menyer/output                   |
 |   Dynamic output      = Extra-info visas beroende på vehicle-typ            |
 |   Mixed Garage        = Kan hantera alla vehicle-typer                      |
+|   Mock Garages        = Förifyllda demo/mock-garage                         |                      |
 |   Combined search     = Flera filter samtidigt                              |
 |   Garage validation   = Förhindrar inkompatibla garage vid load             |
 |   Ctrl+C handling     = Säker avslutning                                    |
@@ -174,18 +189,9 @@ ___________________________________________________________
 |   Capacity-check     = Förhindrar overflow vid load                         |
 |   Compatibility      = Validerar garage-typer vid load                      |
 |   Overwrite-warning  = Skyddar aktivt garage vid load                       |
-===========================================================
-
-
-¤ Unit Testing:
-
-
-|   App.Tests         = Separat xUnit testprojekt                             |
-|   xUnit             = Ramverk för enhetstester                              |
-|   AddVehicle tests  = Testar add/logik + duplicate regnr                    |
-|   Assertions        = Assert.True / Assert.False                            |
 
 ===========================================================
+
 
 cmd:
 dotnet run
