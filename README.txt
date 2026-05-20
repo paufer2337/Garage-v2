@@ -1,4 +1,4 @@
-=== C# Övning 3 - Garage Console App ===
+=== C# Övning 3 - Garage Console App - 2.0 ===
 ___________________________________________________________
 
 
@@ -16,7 +16,11 @@ ___________________________________________________________
 
 
 ~ Basklass:
-|   Vehicle         = Gemensam basklass för alla fordon                       |
+|   Vehicle         = Gemensam basklass för alla fordon  
+
+~ Interfaces:
+|   IVehicle        = Kontrakt för alla fordon                                |
+|   IHandler        = Kontrakt för GarageHandler                              |                     |
 
 ~ Subklasser:
 |   Car                                                                       |
@@ -37,11 +41,28 @@ ___________________________________________________________
 ~ Program.cs:
 |   Main                = Startar programmet + hanterar huvudmeny             |
 |   CreateGarage        = Skapar garage med valfri kapacitet                  |
-|   PopulateGarage      = Lägger till fordon direkt vid start                 |
 |   AddVehicle          = Skapar + lägger till nytt fordon                    |
 |   RemoveVehicle       = Tar bort fordon via registreringsnummer             |
 |   SearchByRegNr       = Söker efter fordon via registreringsnummer          |
 |   SearchByProperties  = Meny för sökning via egenskaper                     |
+
+~ GarageApp.cs:
+|   Run                  = Startar app-flow                                   |
+|   ShowStartMenu        = Startmeny                                          |
+|   ShowMainMenu         = Huvudmeny                                          |
+|   CreateGarage         = Skapar nytt garage                                 |
+|   AddVehicle           = Skapar + parkerar fordon                           |
+|   RemoveVehicle        = Tar bort fordon                                    |
+|   SearchByRegNr        = Söker via registreringsnummer                      |
+|   SearchByProperties   = Property-search meny                               |
+|   CombinedSearch       = Kombinerad sökning                                 |
+|   ShowSearchResult     = Visar sökresultat                                  |
+|   ShowParkedVehicles   = Skriver ut parkerade fordon                        |
+|   ListVehicleTypes     = Visar antal fordon per typ                         |
+|   SaveGarage           = Sparar garage                                      |
+|   LoadGarage           = Laddar garage                                      |
+|   Exit                 = Avslutar programmet                                |
+|   OnExit               = Hanterar Ctrl+C                                    |
 
 ~ Garage.cs:
 |   AddVehicle          = Parkerar fordon i första lediga plats               |
@@ -50,12 +71,22 @@ ___________________________________________________________
 |   VehiclesByType      = Räknar antal fordon per typ                         |
 |   SearchByRegNr       = Söker efter matchande registreringsnummer           |
 |   SearchByProperty    = Söker via vald property                             |
+|   GetVehicles         = Returnerar parkerade fordon                         |
+|   RegNrExists         = Duplicate-check                                     |
+|   IsFull              = Kontrollerar kapacitet                              |
+|   Count               = Räknar parkerade fordon                             |
+|   GetEnumerator       = Möjliggör foreach                                   |
 
 ~ Vehicle.cs:
 |   GetInfo             = Returnerar grundläggande fordonsinfo                |
 |   GetExtraInfo        = Returnerar subclass-specifik property               |
+|   Vehicle()           = Baskonstruktor + validering                         |
+|   RegNumber           = Regex-validering + normalisering                    |
+|   Color               = Letters-only validation                             |
+|   WheelAmount         = Wheel validation                                    |
 
 ~ Helpers.cs:
+|   GetOnlyText         = Tillåter endast bokstäver                           |
 |   GetValidText        = Validerar text-input                                |
 |   GetValidInt         = Validerar heltal                                    |
 |   GetValidDouble      = Validerar decimaltal                                |
@@ -89,6 +120,17 @@ ___________________________________________________________
 ===========================================================
 
 
+¤ Arkitektur / Struktur:
+
+
+|   Separation of Concerns = UI / AppFlow / BusinessLogic / Storage           |
+|   Generics               = Garage<T>                                        |
+|   IEnumerable<T>         = Möjliggör foreach                                |
+|   Interfaces             = IHandler + IVehicle                              |
+|   LINQ                   = Filtering + search                               |
+
+===========================================================
+
 ¤ Extra properties per fordon:
 
 
@@ -111,6 +153,11 @@ ___________________________________________________________
 |   UX/UI               = Tydliga menyer + tabellbaserad output               |
 |   Console.Clear()     = Renare flöde mellan menyer/output                   |
 |   Dynamic output      = Extra-info visas beroende på vehicle-typ            |
+|   Mixed Garage        = Kan hantera alla vehicle-typer                      |
+|   Combined search     = Flera filter samtidigt                              |
+|   Garage validation   = Förhindrar inkompatibla garage vid load             |
+|   Ctrl+C handling     = Säker avslutning                                    |
+|   LINQ filtering      = Dynamisk property-search                            |
 
 ===========================================================
 
@@ -118,13 +165,15 @@ ___________________________________________________________
 ¤ Filhantering / Persistence:
 
 
-|   FileHandler.cs    = Hanterar save/load via CSV-fil                        |
-|   SaveToFile        = Sparar garage-data till garage.csv                    |
-|   LoadFromFile      = Läser in sparade fordon från CSV-fil                  |
-|   Autosave          = Sparar automatiskt vid add/remove                     |
-|   CSV-format        = Semikolon-separerad fordonsdata                       |
-|   Data/garage.csv   = Persistent lagring av garage-data                     |
-
+|   FileHandler.cs     = Hanterar save/load via JSON                          |
+|   SaveToFile         = Sparar garage-data till garage.json                  |
+|   LoadFromFile       = Läser in sparade fordon från JSON-fil                |
+|   DTO-conversion     = Vehicle <-> VehicleData                              |
+|   JSON Serialization = System.Text.Json                                     |
+|   Data/garage.json   = Persistent lagring av garage-data                    |
+|   Capacity-check     = Förhindrar overflow vid load                         |
+|   Compatibility      = Validerar garage-typer vid load                      |
+|   Overwrite-warning  = Skyddar aktivt garage vid load                       |
 ===========================================================
 
 

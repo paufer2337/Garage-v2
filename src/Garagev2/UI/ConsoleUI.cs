@@ -11,9 +11,12 @@ public static class ConsoleUI
     {
         Console.Clear();
 
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine("========================================");
         Console.WriteLine($" {title}");
         Console.WriteLine("========================================");
+        
+        Console.ResetColor();
         Console.WriteLine();
     }
 
@@ -56,8 +59,8 @@ public static class ConsoleUI
         Console.WriteLine("No active garage selected.");
         Console.WriteLine();
 
-        Console.WriteLine("[1] Create new garage");
-        Console.WriteLine("[2] Load garage from file");
+        Console.WriteLine("[1] Create New garage");
+        Console.WriteLine("[2] Create Populated Garage");
         Console.WriteLine();
         Console.WriteLine("[0] Exit");
 
@@ -69,6 +72,28 @@ public static class ConsoleUI
     {
         
         ShowHeader("Garage 2.0");
+
+        int remainingSpots = capacity - parkedVehicles;
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.WriteLine($" Garage Type: {garageType}");
+        Console.WriteLine($" Vehicles Parked: {parkedVehicles}/{capacity}");
+
+        if (remainingSpots == 0)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+        }
+        else if (remainingSpots <= 3)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+        }
+
+        Console.WriteLine($" Remaining Spots: {remainingSpots}");
+
+        Console.ResetColor();
 
         Console.WriteLine();
 

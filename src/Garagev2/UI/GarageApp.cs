@@ -49,7 +49,7 @@ public class GarageApp
                 break;
 
                 case "2":
-                LoadGarage();
+                CreateMockGarage();
                 break;
 
                 case "0":
@@ -138,6 +138,41 @@ public class GarageApp
     {
         garageHandler = GarageFactory.CreateGarage();
 
+        ConsoleUI.Pause();
+    }
+
+    static void CreateMockGarage()
+    {
+        ConsoleUI.ShowHeader("Create Garage With Mock Data");
+        ConsoleUI.ShowMessage("[1] Car Garage");
+        ConsoleUI.ShowMessage("[2] Motorcycle Garage");
+        ConsoleUI.ShowMessage("[3] Bus Garage");
+        ConsoleUI.ShowMessage("[4] Harbor");
+        ConsoleUI.ShowMessage("[5] Hangar");
+        ConsoleUI.ShowMessage("[6] Mixed Garage");
+        Console.WriteLine();
+        ConsoleUI.ShowMessage("[0] Back");
+        ConsoleUI.ShowMessage("");
+
+        int choice = Helpers.GetValidInt("Select option: ", 0, 6);
+
+        garageHandler = choice switch
+        {
+            1 => MockFactory.CreateMockGarage("Car"),
+            2 => MockFactory.CreateMockGarage("Motorcycle"),
+            3 => MockFactory.CreateMockGarage("Bus"),
+            4 => MockFactory.CreateMockGarage("Boat"),
+            5 => MockFactory.CreateMockGarage("Airplane"),
+            6 => MockFactory.CreateMockGarage("Mixed"),
+            _ => null
+        };
+
+        if (garageHandler == null)
+        {
+            return;
+        }
+
+        ConsoleUI.ShowSuccess($"{garageHandler.GarageType} created with 5 mock vehicles.");
         ConsoleUI.Pause();
     }
 
