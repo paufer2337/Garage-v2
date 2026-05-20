@@ -4,13 +4,13 @@ ___________________________________________________________
 
 ¤ Hur är programmets struktur uppbyggd?
 
- - Program.cs      (Entrypoint + startar appen)
- - Garage.cs       (Garage-logik + hantering av vehicle-array)
- - Vehicle.cs      (Abstrakt basklass för alla fordon)
- - Helpers.cs      (Validering + hjälpmetoder)
- - GarageApp.cs    (App-flow + navigation + menyer)
- - ConsoleUI.cs    (Presentation + output)
- - GarageHandler.cs(Bridge mellan UI och Garage)
+ - Program.cs        (Entrypoint + startar appen)
+ - Garage.cs         (Garage-logik + hantering av vehicle-array)
+ - Vehicle.cs        (Abstrakt basklass för alla fordon)
+ - Helpers.cs        (Validering + hjälpmetoder)
+ - GarageApp.cs      (App-flow + navigation + menyer)
+ - ConsoleUI.cs      (Presentation + output)
+ - GarageHandler.cs  (Bridge mellan UI och Garage)
  - VehicleFactory.cs (Vehicle creation + validation flow)
  - GarageFactory.cs  (Garage creation)
  - FileHandler.cs    (JSON persistence)
