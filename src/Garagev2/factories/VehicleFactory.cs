@@ -25,11 +25,11 @@ public static class VehicleFactory
             
             return garageHandler.AllowedVehicleType switch
             {
-                "Car" => CreateCar(regNumber, color),
-                "Motorcycle" => CreateMotorcycle(regNumber, color),
-                "Bus" => CreateBus(regNumber, color),
-                "Airplane" => CreateAirplane(regNumber, color),
-                "Boat" => CreateBoat(regNumber, color),
+                "Car" => TryCreate(() => CreateCar(regNumber, color)),
+                "Motorcycle" => TryCreate(() => CreateMotorcycle(regNumber, color)),
+                "Bus" => TryCreate(() => CreateBus(regNumber, color)),
+                "Airplane" => TryCreate(() => CreateAirplane(regNumber, color)),
+                "Boat" => TryCreate(() => CreateBoat(regNumber, color)),
                 _ => null
             };
         }
@@ -58,11 +58,11 @@ public static class VehicleFactory
 
         return choice switch
         {
-            "1" => CreateCar(regNumber2, color2),
-            "2" => CreateMotorcycle(regNumber2, color2),
-            "3" => CreateBus(regNumber2, color2),
-            "4" => CreateBoat(regNumber2, color2),
-            "5" => CreateAirplane(regNumber2, color2),
+            "1" => TryCreate (() => CreateCar(regNumber2, color2)),
+            "2" => TryCreate (() => CreateMotorcycle(regNumber2, color2)),
+            "3" => TryCreate (() => CreateBus(regNumber2, color2)),
+            "4" => TryCreate (() => CreateBoat(regNumber2, color2)),
+            "5" => TryCreate (() => CreateAirplane(regNumber2, color2)),
             _ => null
         };
     }
@@ -132,6 +132,7 @@ public static class VehicleFactory
 
         return new Airplane(regNumber, color, wheels, engines);
     }
+
 
     private static string ReadRegNumber(GarageHandler garageHandler)
     {
@@ -216,5 +217,20 @@ public static class VehicleFactory
         return Helpers.GetValidInt(
         "Enter number of wheels for Airplane: ", 3, 6, "Airplane must have between 3 and 6 wheels.");
         
+    }
+
+
+
+    private static Vehicle? TryCreate(Func<Vehicle> createVehicle)
+    {
+        try
+        {
+            return createVehicle();
+        }
+        catch (ArgumentException ex)
+        {
+            ConsoleUI.ShowError(ex.Message);
+            return null;
+        }
     }
 }

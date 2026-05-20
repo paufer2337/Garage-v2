@@ -9,14 +9,23 @@ namespace GarageConsoleApp;
 public interface IHandler
 {
     int Capacity { get; }
-    bool IsFull { get; }
+    string GarageType { get; }
+    string AllowedVehicleType { get; }
 
-    bool CreateGarage(int capacity);
-    bool AddVehicle(IVehicle vehicle);
+
+    bool AddVehicle(Vehicle vehicle);
     bool RemoveVehicle(string regNumber);
-    bool ContainsRegNumber(string regNumber);
-    IVehicle? FindByRegNumber(string regNumber);
-    IEnumerable<IVehicle> GetAllVehicles();
-    IDictionary<string, int> GetVehicleTypeCounts();
-    IEnumerable<IVehicle> SearchVehicles(string? type = null, string? color = null, int? wheels = null);
+    bool RegNrExists(string regNumber);
+    bool IsFull();
+
+    int Count();
+
+    Vehicle? FindVehicle(string regNumber);
+    Vehicle? GetVehicleIndex(int index);
+
+    IEnumerable<Vehicle> GetVehicles();
+    IEnumerable<Vehicle> FindByColor(string color);
+    IEnumerable<Vehicle> SearchVehicles(string? type = null, string? color = null, int? wheels = null);
+
+    Dictionary<string, int> GetVehicleTypeCounts();
 }
