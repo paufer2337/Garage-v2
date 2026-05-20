@@ -75,12 +75,24 @@ public class GarageHandler : IHandler
             .Where(vehicle => vehicle.Color.Equals(color, StringComparison.OrdinalIgnoreCase));
     }
 
+    public IEnumerable<Vehicle> FindByType(string type)
+    {
+        return garage
+            .Where(v => v.VehicleType.Equals(type, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public IEnumerable<Vehicle> FindByWheels(int wheels)
+    {
+        return garage
+            .Where(v => v.WheelAmount == wheels);
+    }
+
     public IEnumerable<Vehicle> SearchVehicles(string? type = null, string? color = null, int? wheels = null)
     {
         return garage.GetVehicles()
             .Where(vehicle =>
-                (type == null || vehicle.VehicleType.Equals(type, StringComparison.OrdinalIgnoreCase)) &&
-                (color == null || vehicle.Color.Equals(color, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(type) || vehicle.VehicleType.Equals(type, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrWhiteSpace(color) || vehicle.Color.Equals(color, StringComparison.OrdinalIgnoreCase)) &&
                 (wheels == null || vehicle.WheelAmount == wheels));
     }
 

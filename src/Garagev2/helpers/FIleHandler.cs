@@ -1,7 +1,7 @@
 using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
+using System.Text.Json;
+using System.Globalization;
+
 
 
 
@@ -12,113 +12,191 @@ namespace GarageConsoleApp;
 public static class FileHandler
 {
     private static readonly string filePath = 
-    Path.Combine(Directory.GetCurrentDirectory(), "Data", "garage.csv");
+    Path.Combine(Directory.GetCurrentDirectory(), "Data", "garage.json");
 
-    public static void SaveToFile(Garage<Vehicle> garage)
+    public static void SaveToFile(GarageHandler garageHandler)
     {
         
         Directory.CreateDirectory("Data");
         
-        List<string> lines = new List<string>();
-        lines.Add("Type;RegNumber;Color;Wheels;Extra");
-
-        foreach (Vehicle? vehicle in garage.GetVehicles())
+        GarageSaveData saveData = new GarageSaveData
         {
-            if (vehicle == null)
-            {
-                continue;
-            }
+            GarageType = garageHandler.GarageType,
+            AllowedVehicleType = garageHandler.AllowedVehicleType,
+            Capacity = garageHandler.Capacity,
+            Vehicles = garageHandler.GetVehicles().Select(CreateVehicleData).ToList()
+        };
 
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
 
-            if (vehicle is Car car)
-            {
-                lines.Add($"Car;{car.RegNumber};{car.Color};{car.WheelAmount};{car.FuelType}");
-            }
-            else if (vehicle is Bus bus)
-            {
-                lines.Add($"Bus;{bus.RegNumber};{bus.Color};{bus.WheelAmount};{bus.SeatAmount}");
-            }
-            else if (vehicle is Motorcycle motorcycle)
-            {
-                lines.Add($"Motorcycle;{motorcycle.RegNumber};{motorcycle.Color};{motorcycle.WheelAmount};{motorcycle.CylinderVolume}");
-            }
-            else if (vehicle is Boat boat)
-            {
-                lines.Add($"Boat;{boat.RegNumber};{boat.Color};{boat.WheelAmount};{boat.Length}");
-            }
-            else if (vehicle is Airplane airplane)
-            {
-                lines.Add($"Airplane;{airplane.RegNumber};{airplane.Color};{airplane.WheelAmount};{airplane.EngineAmount}");
-            }
-            
-        }
+        string json = JsonSerializer.Serialize(saveData, options);
+        File.WriteAllText(filePath, json);
 
-        File.WriteAllLines(filePath, lines);
-        Console.WriteLine($"File path: {filePath}");
-        Console.WriteLine($"Vehicles saved: {lines.Count - 1}");
     }
 
-    public static void LoadFromFile(Garage<Vehicle> garage)
+    public static GarageHandler? LoadFromFile()
     {
         if (!File.Exists(filePath))
         {
             Console.WriteLine();
             Console.WriteLine($"No file found at: {filePath}");
-            return;
+            return null;
         }
 
-        string[] lines = File.ReadAllLines(filePath);
-        int loadCount = 0;
-
-        foreach (string line in lines.Skip(1))
+        string json = File.ReadAllText(filePath);
+        
+        if (string.IsNullOrWhiteSpace(json))
         {
-            string[] parts = line.Split(';');
-
-            if (parts.Length < 5)
-            {
-                continue;
-            }
-
-            string type = parts[0];
-            string regNumber = parts[1];
-            string color = parts[2];
-            int wheelAmount = int.Parse(parts[3]);
-            string extraInfo = parts[4];
-
-            Vehicle? vehicle = null;
-
-            switch (type)
-            {
-                case "Car":
-                    vehicle = new Car(regNumber, color, wheelAmount, extraInfo);
-                    break;
-
-                case "Bus":
-                    vehicle = new Bus(regNumber, color, wheelAmount, int.Parse(extraInfo));
-                    break;
-
-                case "Motorcycle":
-                    vehicle = new Motorcycle(regNumber, color, wheelAmount, int.Parse(extraInfo));
-                    break;
-
-                case "Boat":
-                    vehicle = new Boat(regNumber, color, wheelAmount, double.Parse(extraInfo));
-                    break;
-
-                case "Airplane":
-                    vehicle = new Airplane(regNumber, color, wheelAmount, int.Parse(extraInfo));
-                    break;
-            }
-
-            if (vehicle != null && garage.AddVehicle(vehicle))
-            {
-                loadCount++;
-            }
-
+            return null;
         }
 
-        Console.WriteLine("|");
-        Console.WriteLine($"| Garage loaded from file: {filePath}");
-        Console.WriteLine($"| Total vehicles loaded: {loadCount}");
+        GarageSaveData? saveData = JsonSerializer.Deserialize<GarageSaveData>(json);
+
+        if (saveData == null)
+        {
+            return null;
+        }
+
+        GarageHandler garage = new GarageHandler(
+            saveData.Capacity, saveData.GarageType, saveData.AllowedVehicleType);
+
+        
+        foreach (VehicleData vehicleData in saveData.Vehicles)
+        {
+            Vehicle? vehicle = CreateVehicle(vehicleData);
+
+            if (vehicle != null)
+            {
+                garage.AddVehicle(vehicle);
+            }
+        }
+
+        return garage;
+
     }
+
+    private static VehicleData CreateVehicleData(Vehicle vehicle)
+    {
+        return vehicle switch
+        {
+            Car car => new VehicleData
+            {
+                Type = "Car",
+                RegNumber = car.RegNumber,
+                Color = car.Color,
+                WheelAmount = car.WheelAmount,
+                Extra = car.FuelType
+            },
+
+            Bus bus => new VehicleData
+            {
+                Type = "Bus",
+                RegNumber = bus.RegNumber,
+                Color = bus.Color,
+                WheelAmount = bus.WheelAmount,
+                Extra = bus.SeatAmount.ToString()
+            },
+
+            Motorcycle motorcycle => new VehicleData
+            {
+                Type = "Motorcycle",
+                RegNumber = motorcycle.RegNumber,
+                Color = motorcycle.Color,
+                WheelAmount = motorcycle.WheelAmount,
+                Extra = motorcycle.CylinderVolume.ToString()
+            },
+
+            Boat boat => new VehicleData
+            {
+                Type = "Boat",
+                RegNumber = boat.RegNumber,
+                Color = boat.Color,
+                WheelAmount = boat.WheelAmount,
+                Extra = boat.Length.ToString(CultureInfo.InvariantCulture)
+            },
+
+            Airplane airplane => new VehicleData
+            {
+                Type = "Airplane",
+                RegNumber = airplane.RegNumber,
+                Color = airplane.Color,
+                WheelAmount = airplane.WheelAmount,
+                Extra = airplane.EngineAmount.ToString()
+            },
+
+            _ => throw new InvalidOperationException("Unknown vehicle type.")
+        };
+    }
+
+    private static Vehicle? CreateVehicle(VehicleData vehicleData)
+    {
+        try
+        {
+            return vehicleData.Type switch
+            {
+                "Car" => new Car(
+                    vehicleData.RegNumber,
+                    vehicleData.Color,
+                    vehicleData.WheelAmount,
+                    vehicleData.Extra
+                ),
+
+                "Bus" => new Bus(
+                    vehicleData.RegNumber,
+                    vehicleData.Color,
+                    vehicleData.WheelAmount,
+                    int.Parse(vehicleData.Extra)
+                ),
+
+                "Motorcycle" => new Motorcycle(
+                    vehicleData.RegNumber,
+                    vehicleData.Color,
+                    vehicleData.WheelAmount,
+                    int.Parse(vehicleData.Extra)
+                ),
+
+                "Boat" => new Boat(
+                    vehicleData.RegNumber,
+                    vehicleData.Color,
+                    vehicleData.WheelAmount,
+                    double.Parse(vehicleData.Extra, CultureInfo.InvariantCulture)
+                ),
+
+                "Airplane" => new Airplane(
+                    vehicleData.RegNumber,
+                    vehicleData.Color,
+                    vehicleData.WheelAmount,
+                    int.Parse(vehicleData.Extra)
+                ),
+
+                _ => null
+            };
+        }
+
+        catch
+        {
+            return null;
+        }
+    }
+
+    private class GarageSaveData
+    {
+        public string GarageType { get; set; } = "";
+        public string AllowedVehicleType { get; set; } = "";
+        public int Capacity { get; set; }
+        public List<VehicleData> Vehicles { get; set; } = new();
+    }
+
+    private class VehicleData
+    {
+        public string Type { get; set; } = "";
+        public string RegNumber { get; set; } = "";
+        public string Color { get; set; } = "";
+        public int WheelAmount { get; set; }
+        public string Extra { get; set; } = "";
+    }
+
 }

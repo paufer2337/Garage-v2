@@ -1,0 +1,49 @@
+{
+  "GarageType": "Car Garage",
+  "AllowedVehicleType": "Car",
+  "Capacity": 6,
+  "Vehicles": [
+    {
+      "Type": "Car",
+      "RegNumber": "QWE123",
+      "Color": "BLUE",
+      "WheelAmount": 4,
+      "Extra": "Gasoline"
+    },
+    {
+      "Type": "Car",
+      "RegNumber": "QWE456",
+      "Color": "YELLOW",
+      "WheelAmount": 4,
+      "Extra": "Diesel"
+    },
+    {
+      "Type": "Car",
+      "RegNumber": "ABC123",
+      "Color": "BLUE",
+      "WheelAmount": 4,
+      "Extra": "Diesel"
+    },
+    {
+      "Type": "Car",
+      "RegNumber": "ABC456",
+      "Color": "YELLOW",
+      "WheelAmount": 4,
+      "Extra": "Diesel"
+    },
+    {
+      "Type": "Car",
+      "RegNumber": "ABC789",
+      "Color": "BLACK",
+      "WheelAmount": 4,
+      "Extra": "Diesel"
+    },
+    {
+      "Type": "Car",
+      "RegNumber": "QWE321",
+      "Color": "YELLOW",
+      "WheelAmount": 4,
+      "Extra": "Gasoline"
+    }
+  ]
+}
