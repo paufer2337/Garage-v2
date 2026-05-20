@@ -82,6 +82,49 @@ public static class Helpers
         }
     }
 
+    public static string GetValidColor()
+    {
+        string[] validColors =
+        {
+            "BLACK",
+            "WHITE",
+            "RED",
+            "BLUE",
+            "GREEN",
+            "YELLOW",
+            "GRAY",
+            "SILVER",
+            "BROWN",
+            "ORANGE",
+            "PINK",
+            "PURPLE"
+        };
+
+        while (true)
+        {
+            Console.WriteLine();
+            ConsoleUI.ShowMessage("Available colors:");
+            Console.WriteLine();
+            Console.WriteLine("¤  BLACK      ¤  GRAY");
+            Console.WriteLine("¤  WHITE      ¤  SILVER");
+            Console.WriteLine("¤  RED        ¤  BROWN");
+            Console.WriteLine("¤  BLUE       ¤  ORANGE");
+            Console.WriteLine("¤  GREEN      ¤  PINK");
+            Console.WriteLine("¤  YELLOW     ¤  PURPLE");
+            Console.WriteLine();
+
+            string color = GetOnlyText("Enter color: ").ToUpper();
+
+            if (validColors.Contains(color))
+            {
+                return color;
+            }
+
+            ConsoleUI.ShowError("Invalid color. Please choose a color from the list.");
+            Console.WriteLine();
+        }
+    }
+
 
     public static void CountDownToMenu()
     {

@@ -21,7 +21,7 @@ public static class VehicleFactory
             ConsoleUI.ShowMessage("");
 
             string regNumber = ReadRegNumber(garageHandler);
-            string color = Helpers.GetOnlyText("Enter color: ");
+            string color = Helpers.GetValidColor();
             
             return garageHandler.AllowedVehicleType switch
             {
@@ -42,9 +42,8 @@ public static class VehicleFactory
         Console.WriteLine("[4] Boat");
         Console.WriteLine("[5] Airplane");
         Console.WriteLine();
-        Console.WriteLine("[0] Back");
+        Console.WriteLine("[0] Cancel");
         Console.WriteLine();
-        Console.Write("Select option: ");
 
         int choice = Helpers.GetValidInt("Select option: ", 0, 5);
 
@@ -53,8 +52,9 @@ public static class VehicleFactory
             return null;
         }
 
+
         string regNumber2 = ReadRegNumber(garageHandler);
-        string color2 = Helpers.GetOnlyText("Enter color: ");
+        string color2 = Helpers.GetValidColor();
 
         return choice switch
         {
