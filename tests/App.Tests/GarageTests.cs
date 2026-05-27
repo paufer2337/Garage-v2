@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using GarageConsoleApp;
 using Xunit;
 
@@ -23,5 +24,19 @@ public class GarageTests
 
         // assert
         Assert.Equal(0, result);
+    }
+
+
+    [Fact]
+    public void AddVehicle_IfGarageHasSpace_ReturnsTrue()
+    {
+        //arrange
+        Garage<Vehicle> garage = new(3);
+
+        // act 
+        bool result = garage.AddVehicle(car);
+
+        // assert
+        Assert.True(result);
     }
 }
