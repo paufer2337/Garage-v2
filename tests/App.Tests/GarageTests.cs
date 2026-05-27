@@ -125,8 +125,12 @@ public class GarageTests
     }
 
 
-    [Fact]
-    public void RegNrExists_IfInputIsLowercase_ReturnsTrue()
+    [Theory]
+    [InlineData("ABC123")]
+    [InlineData("abc123")]
+    [InlineData("AbC123")]
+    [InlineData("aBc123")]
+    public void RegNrExists_IfInputIsMixCase_ReturnsTrue(string regNumber)
     {
         // arrange
         Garage<Vehicle> garage = new(3);
@@ -136,7 +140,7 @@ public class GarageTests
         garage.AddVehicle(car);
 
         // act
-        bool result = garage.RegNrExists("abc123");
+        bool result = garage.RegNrExists(regNumber);
 
         // assert
         Assert.True(result);
