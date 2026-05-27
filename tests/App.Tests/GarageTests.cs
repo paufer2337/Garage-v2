@@ -89,7 +89,60 @@ public class GarageTests
         
         // assert
         Assert.True(result);
-        
+
     }
+
+    [Fact]
+    public void RemoveVehicle_WhenRemoved_DecreaseCount()
+    {
+        // arrange
+        Garage<Vehicle> garage = new(3);
+
+        Car car = new("ABC123", "Gold", 4, "Gasoline");
+
+        garage.AddVehicle(car);
+
+        // act
+        garage.RemoveVehicle("ABC123");
+    }
+
+
+    [Fact]
+    public void RemoveVehicle_IfNotExist_ReturnsFalse()
+    {
+        // arrange
+        Garage<Vehicle> garage = new(3);
+
+        Car car = new("ABC123", "Yellow", 4, "Gasoline");
+
+        garage.AddVehicle(car);
+
+        // act
+        bool result = garage.RemoveVehicle("ABC456");
+
+        // assert
+        Assert.False(result);
+    }
+
+
+    [Fact]
+    public void RegNrExists_IfInputIsLowercase_ReturnsTrue()
+    {
+        // arrange
+        Garage<Vehicle> garage = new(3);
+
+        Car car = new("ABC123", "Black", 4, "Diesel");
+
+        garage.AddVehicle(car);
+
+        // act
+        bool result = garage.RegNrExists("abc123");
+
+        // assert
+        Assert.True(result);
+    }
+
+
+
     
 }
