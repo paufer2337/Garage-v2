@@ -30,11 +30,11 @@ ___________________________________________________________
 
 ~ UI:
 |   GarageApp       = App-flow + navigation                                   |
-|   ConsoleUI       = Console-presentation + output                           |                         |
+|   ConsoleUI       = Console-presentation + output                           |                         
 
 ~ Interfaces:
 |   IVehicle        = Kontrakt för alla fordon                                |
-|   IHandler        = Kontrakt för GarageHandler                              |                     |
+|   IHandler        = Kontrakt för GarageHandler                              |                     
 
 ~ Subklasser:
 |   Car                                                                       |
@@ -96,7 +96,7 @@ ___________________________________________________________
 |   GetExtraInfo        = Returnerar subclass-specifik property               |
 |   Vehicle()           = Baskonstruktor + validering                         |
 |   RegNumber           = Regex-validering + normalisering                    |
-|   Color               = Fördefinierad color-validation                              |
+|   Color               = Fördefinierad color-validation                      |
 |   WheelAmount         = Wheel validation                                    |
 
 ~ Helpers.cs:
@@ -168,7 +168,7 @@ ___________________________________________________________
 |   Console.Clear()     = Renare flöde mellan menyer/output                   |
 |   Dynamic output      = Extra-info visas beroende på vehicle-typ            |
 |   Mixed Garage        = Kan hantera alla vehicle-typer                      |
-|   Mock Garages        = Förifyllda demo/mock-garage                         |                      |
+|   Mock Garages        = Förifyllda demo/mock-garage                         |                      
 |   Combined search     = Flera filter samtidigt                              |
 |   Garage validation   = Förhindrar inkompatibla garage vid load             |
 |   Ctrl+C handling     = Säker avslutning                                    |
