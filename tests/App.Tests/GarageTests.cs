@@ -74,5 +74,22 @@ public class GarageTests
         Assert.False(result);
         Assert.Equal(1, garage.Count());
     }
+
+    [Fact]
+    public void RemoveVehicle_IfExists_ReturnsTrue()
+    {
+        // arrange
+        Garage<Vehicle> garage = new(3);
+        Car car = new("ABC123", "White", 4, "Diesel");
+        
+        garage.AddVehicle(car);
+
+        // act
+        bool result = garage.RemoveVehicle("ABC123");
+        
+        // assert
+        Assert.True(result);
+        
+    }
     
 }
