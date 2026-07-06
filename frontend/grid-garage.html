@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+    <html lang="sv">
+        <head>
+            <meta charset="UTF-8">
+            <title>Garage-v2 Grid</title>
+            <link rel="stylesheet" href="garage-grid.css">
+        </head>
+        <body>
+
+        <main class="garage-container">
+            <header class="hero">
+                <p class="eyebrow">Frontend exercise · CSS Grid</p>
+                <h1>Garage-v2 Visual Garages</h1>
+                <p class="intro">
+                         A frontend visualization inspired by the mock garages in Garage-v2.
+                </p>
+            </header>
+
+            <section class="garage-tabs">
+                <button onclick="showGarage('car')">Car Garage</button>
+                <button onclick="showGarage('motorcycle')">Motorcycle Garage</button>
+                <button onclick="showGarage('bus')">Bus Garage</button>
+                <button onclick="showGarage('boat')">Harbor</button>
+                <button onclick="showGarage('airplane')">Hangar</button>
+                <button onclick="showGarage('mixed')">Mixed Garage</button>
+            </section>
+
+            <h2 id="garage-title">Mixed Garage</h2>
+
+            <section class="grid-garage">
+                <div class="roadway">
+                    <span class="arrow">↑</span>
+                    <strong>KÖRBANA</strong>
+                    <p>Infart / Utfart</p>
+                    <span class="arrow">↓</span>
+                </div>
+
+                <article class="parking-spot spot-1" id="slot-1"></article>
+                <article class="parking-spot spot-2" id="slot-2"></article>
+                <article class="parking-spot spot-3" id="slot-3"></article>
+                <article class="parking-spot spot-4" id="slot-4"></article>
+                <article class="parking-spot vip-spot" id="slot-5"></article>
+            
+            </section>
+        </main>
+
+        <script>
+            const garages = {
+
+                car: {
+                    title: "Car Garage",
+                    vehicles: [
+                        ["🚗", "Car", "ABC123"],
+                        ["🚗", "Car", "ABC456"],
+                        ["🚗", "Car", "ABC789"],
+                        ["🚗", "Car", "ABC012"],
+                        ["🚘", "Limousine", "VIP001"]
+                    ]
+                },
+
+                motorcycle: {
+                    title: "Motorcycle Garage",
+                    vehicles: [
+                        ["🏍️", "Motorcycle", "MCA101"],
+                        ["🏍️", "Motorcycle", "MCB102"],
+                        ["🏍️", "Motorcycle", "MCC103"],
+                        ["🏍️", "Motorcycle", "MCD104"],
+                        ["🛵", "VIP-Vespa", "VIP002"]
+                    ]
+                },
+
+                bus: {
+                    title: "Bus Garage",
+                    vehicles: [
+                        ["🚌", "Bus", "BUS001"],
+                        ["🚌", "Bus", "BUS002"],
+                        ["🚌", "Bus", "BUS003"],
+                        ["🚌", "Bus", "BUS004"],
+                        ["🚍", "DDouble-Decker", "VIP003"]
+                    ]
+                },
+
+                boat: {
+                    title: "Harbor",
+                    vehicles: [
+                        ["🚤", "Boat", "BÅT001"],
+                        ["🚤", "Boat", "BÅT002"],
+                        ["🚤", "Boat", "BÅT003"],
+                        ["🚤", "Boat", "BÅT004"],
+                        ["🛥️", "Yacht", "VIP004"]
+                    ]
+                },
+
+                airplane: {
+                    title: "Hangar",
+                    vehicles: [
+                        ["✈️", "Airplane", "AIR101"],
+                        ["✈️", "Airplane", "AIR102"],
+                        ["✈️", "Airplane", "AIR103"],
+                        ["✈️", "Airplane", "AIR104"],
+                        ["🛩️", "Private Jet", "VIP005"]
+                    ]
+                },
+                
+                mixed: {
+                    title: "Mixed Garage",
+                    vehicles: [
+                        ["🚗", "Car", "MIX101"],
+                        ["🏍️", "Motorcycle", "MIX102"],
+                        ["🚌", "Bus", "MIX103"],
+                        ["🚤", "Boat", "MIX104"],
+                        ["🛩️", "Private Jet", "VIP005"]
+                    ]
+                }
+            };
+
+            function showGarage(type) {
+                const garage = garages[type];
+
+                document.getElementById("garage-title").textContent = garage.title;
+
+                garage.vehicles.forEach((vehicle, index) => {
+                    const slot = document.getElementById(`slot-${index + 1}`);
+
+                    slot.innerHTML = `
+                        <div class="vehicle-icon">${vehicle[0]}</div>
+                        <div>
+                            <h3>${vehicle[1]}</h3>
+                            <span>${vehicle[2]}</span>
+                        </div>
+                    `;
+                });
+            }
+
+            showGarage("mixed");
+        </script>
+
+    </body>
+</html>
