@@ -1,38 +1,64 @@
-# Frontend / Visual Garage Demo:
+# Frontend – Garage-v2
 
-|   frontend/flexbox-garage.html = Visualiserar garage med Flexbox            |
-|   frontend/flex-garage.css     = Styling för Flexbox-layouten               |
-|   frontend/grid-garage.html    = Visualiserar garage med CSS Grid           |
-|   frontend/garage-grid.css     = Styling för Grid-layouten                  |
+## Beskrivning
 
-Frontend-delen är en separat visuell demo inspirerad av Garage-v2 och skapades 
-i samband med de två första frontend-övningarna och använder projektets 
-garage-tema för att öva Flexbox och CSS Grid.
-Den är inte kopplad till Console Appens runtime.
+Den här mappen innehåller två fristående frontend-övningar som skapades i samband med de två första momenten i frontend-kursen.
 
-Flexbox-delen visar fordon som responsiva parkeringscards.
-Grid-delen visar ett parkeringsgarage med tre rader, tre kolumner
-och en körbana i mitten.
+Istället för att skapa ett helt nytt projekt återanvändes Garage-v2 som tema för att visualisera fordon och parkeringsplatser med hjälp av HTML och CSS.
 
-===========================================================
+**OBS!** Frontend-delen är **inte kopplad** till Console Appens runtime utan fungerar som en separat visuell demonstration.
 
-Öppna/Se frontend övningarna:
+---
 
-1. Öppna projektmappen Garage-v2
-2. Gå in i frontend mappen
-3. Dubbelklicka direkt på HTML-filerna i File Explorer
+## Filer
 
-===========================================================
+| Fil | Beskrivning |
+|-----|-------------|
+| `flexbox-garage.html` | Visualisering av Garage-v2 med Flexbox |
+| `flex-garage.css` | Styling för Flexbox-layouten |
+| `grid-garage.html` | Visualisering av Garage-v2 med CSS Grid |
+| `garage-grid.css` | Styling för Grid-layouten |
 
-¤ Frontend-koncept som används:
+---
 
-|   HTML5           = Struktur för webbsidorna                                |
-|   CSS3            = Styling och layout                                      |
-|   Flexbox         = Responsiv radbrytning av parkeringskort                 |
-|   flex-wrap       = Gör att fordonen flyttas till ny rad vid behov          |
-|   CSS Grid        = Tvådimensionell garage-layout                           |
-|   grid-column     = Placerar parkeringsrutor i specifika kolumner           |
-|   grid-row        = Placerar parkeringsrutor i specifika rader              |
-|   span            = Används för att låta element sträcka sig över flera rader|
+## Syfte
 
-===========================================================
+Övningarna skapades för att träna på:
+
+- HTML5
+- CSS3
+- Flexbox
+- Flex Wrap
+- CSS Grid
+- Grid Columns
+- Grid Rows
+- Grid Span
+
+Samtidigt återanvänds Garage-v2:s tema för att skapa en mer realistisk frontend än ett vanligt övningsexempel.
+
+---
+
+## Starta övningarna
+
+Öppna projektmappen och navigera till:
+
+```text
+frontend/
+```
+
+Öppna sedan valfri HTML-fil direkt i webbläsaren:
+
+- `flexbox-garage.html`
+- `grid-garage.html`
+
+eller använd **Live Server** i Visual Studio Code.
+
+---
+
+## Designval enligt övningarna
+
+Flexbox används för att visa fordon som responsiva parkeringscards.
+
+CSS Grid används för att skapa ett 2D-parkeringsgarage med en körbana i mitten, där ett större VIP-fordon visar användningen av `grid-row: span` som tar en extra slot.
+
+Frontend-delen är inspirerad av Garage-v2:s mockgarage för att skapa en tydlig koppling mellan Console Appen och webbvisualiseringen.
