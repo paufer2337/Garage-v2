@@ -1,0 +1,277 @@
+/* 
+   RESET
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(180deg,#0f172a,#111827,#020617);
+    color:white;
+}
+
+
+/* 
+    PAGE 
+*/
+
+.garage-container{
+    width:min(1200px,95%);
+    margin:auto;
+    padding:40px 0;
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.eyebrow{
+    color:#facc15;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:.8rem;
+    margin-bottom:10px;
+}
+
+.hero h1{
+    color:#38bdf8;
+    font-size:2.4rem;
+    margin-bottom:12px;
+}
+
+.intro{
+    color:#cbd5e1;
+    max-width:700px;
+    margin:auto;
+    line-height:1.6;
+}
+
+
+/* 
+   GARAGE SELECTOR
+*/
+
+.garage-tabs{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:12px;
+    margin:35px 0;
+}
+
+.garage-tabs button{
+
+    background:#1e293b;
+    color:white;
+
+    border:1px solid #334155;
+    border-radius:10px;
+
+    padding:10px 18px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.garage-tabs button:hover{
+
+    background:#2563eb;
+    border-color:#38bdf8;
+
+}
+
+
+#garage-title{
+
+    text-align:center;
+    margin-bottom:25px;
+
+    color:#facc15;
+
+}
+
+
+/* 
+   GRID GARAGE
+*/
+
+.grid-garage{
+
+    display:grid;
+
+    grid-template-columns:250px 220px 250px;
+
+    grid-template-rows:
+    repeat(3,160px);
+
+    justify-content:center;
+
+    gap:20px;
+
+}
+
+
+/*
+   ROAD
+*/
+
+.roadway{
+
+    grid-column:2;
+    grid-row:1 / span 3;
+
+    border-left:3px dashed white;
+    border-right:3px dashed white;
+
+    background:#111827;
+
+    border-radius:10px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+.arrow{
+
+    font-size:3rem;
+
+}
+
+.roadway strong{
+
+    color:#c084fc;
+    font-size:1.3rem;
+
+}
+
+.roadway p{
+
+    color:#cbd5e1;
+
+}
+
+
+/* 
+   VEHICLE CARDS
+*/
+
+.parking-spot{
+
+    background:#1e293b;
+
+    border:1px solid #475569;
+
+    border-radius:12px;
+
+    display:grid;
+
+    grid-template-columns:90px 1fr;
+
+    align-items:center;
+
+    padding:20px;
+
+    transition:.25s;
+
+}
+
+.parking-spot:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#38bdf8;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
+}
+
+.vehicle-icon{
+
+    font-size:3rem;
+
+    text-align:center;
+
+}
+
+.parking-spot h3{
+
+    margin-bottom:8px;
+
+    font-size:1.3rem;
+
+}
+
+.parking-spot span{
+
+    display:inline-block;
+
+    background:#334155;
+
+    padding:5px 12px;
+
+    border-radius:999px;
+
+    color:#e2e8f0;
+
+    font-size:.85rem;
+
+}
+
+
+/*
+   GRID POSITIONS
+*/
+
+.spot-1{
+
+    grid-column:1;
+    grid-row:1;
+
+}
+
+.spot-2{
+
+    grid-column:3;
+    grid-row:1;
+
+}
+
+.spot-3{
+
+    grid-column:1;
+    grid-row:2;
+
+}
+
+.spot-4{
+
+    grid-column:1;
+    grid-row:3;
+
+}
+
+.vip-spot{
+
+    grid-column:3;
+    grid-row:2 / span 2;
+
+    background:linear-gradient(135deg,#581c87,#312e81);
+
+    border:2px solid #c084fc;
+
+}
