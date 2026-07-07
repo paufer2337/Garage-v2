@@ -112,3 +112,9 @@ body {
 /* LEDTRÅD TILL ELEVERNA: Här saknas något kritiskt! 
    När man tabbar med tangentbordet syns det inte var man är. 
    De måste lägga till och styla :focus-visible här. */
+
+.spot:focus-visible,
+.menu-links a:focus-visible {
+    outline: 4px solid #38bdf8;
+    outline-offset: 4px;
+}
